@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "standard": "CNAUS Registry Core",
-  "feed_generated_at": "2025-12-09T00:00:00Z",
+  "feed_generated_at": "2025-12-09T12:00:00Z",
   "events": [
     {
       "event_id": "evt-0001",
@@ -14,6 +14,28 @@
         "rfc": ["RFC0001", "RFC0002", "RFC0003"],
         "governance": "GOVERNANCE.md",
         "versioning": "VERSIONING.md"
+      }
+    },
+
+    {
+      "event_id": "01JSTDRELEASE00000000000000",
+      "event_type": "standard.initial_public_release",
+      "registry_id": null,
+      "version": "1.0.0",
+      "proof_hash": null,
+      "timestamp": "2025-12-09T12:00:00Z",
+      "details": {
+        "released_documents": [
+          "RFC0001_RegistryFramework.md",
+          "RFC0002_APISpecification.md",
+          "RFC0003_ProofLayer.md",
+          "Feed_Specification.md",
+          "Revocation_Specification.md",
+          "Root_Authority_Specification.md",
+          "VERSIONING.md",
+          "GOVERNANCE.md",
+          "LICENSE.md"
+        ]
       }
     }
   ]
