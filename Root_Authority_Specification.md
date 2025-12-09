@@ -213,3 +213,17 @@ A system or client is compliant with the Root Authority Specification if it:
 - GOVERNANCE.md  
 - LICENSE.md  
 
+---
+
+## CNAUS Root Authority — Release Declaration (v1.0.0)
+
+The CNAUS Root Authority hereby declares the publication of the  
+CNAUS Standard v1.0.0 — Initial Public Release, including all  
+normative RFCs, specifications, schemas, and supporting materials.
+
+This version is final, immutable, and designated as the canonical  
+reference standard for all compliant implementations.
+
+Issued by: CNAUS Root Authority  
+Timestamp: 2025-12-09T12:00:00Z  
+Version: 1.0.0
