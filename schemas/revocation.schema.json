@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CNAUS Revocation Schema",
+  "type": "object",
+  "required": [
+    "registry_id",
+    "version",
+    "revoked_at",
+    "revocation_reason",
+    "proof_hash"
+  ],
+  "properties": {
+    "registry_id": {
+      "type": "string",
+      "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$",
+      "description": "ULID identifying the revoked registry entry"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "Version of the registry entry at time of revocation"
+    },
+    "revoked_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC3339 timestamp of revocation event"
+    },
+    "revocation_reason": {
+      "type": "string",
+      "enum": [
+        "license.expired",
+        "license.terminated",
+        "proof.compromised",
+        "content.replaced",
+        "regulatory.requirement",
+        "root-authority.action"
+      ],
+      "description": "Normative classification of revocation cause"
+    },
+    "proof_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "Proof hash of the final known version prior to revocation"
+    },
+    "details": {
+      "type": ["object", "null"],
+      "description": "Optional metadata; MUST NOT contain personal data"
+    }
+  }
+}

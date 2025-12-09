@@ -1,0 +1,20 @@
+{
+  "version": "1.0.0",
+  "standard": "CNAUS Registry Core",
+  "feed_generated_at": "2025-12-09T00:00:00Z",
+  "events": [
+    {
+      "event_id": "evt-0001",
+      "event_type": "standard.initial_public_release",
+      "timestamp": "2025-12-09T00:00:00Z",
+      "asset": null,
+      "hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "signature": null,
+      "details": {
+        "rfc": ["RFC0001", "RFC0002", "RFC0003"],
+        "governance": "GOVERNANCE.md",
+        "versioning": "VERSIONING.md"
+      }
+    }
+  ]
+}

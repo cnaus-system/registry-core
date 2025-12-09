@@ -1,0 +1,12 @@
+{
+  "input": {
+    "registry_id": "01JABCDE7Y6G4KQ8QNF2S8T9A3",
+    "hash": "3f785c10b7d28d6dbbb4683cf6e2f835c26d5f8a2ab1764a7a55e0bcaf8c2e0d"
+  },
+  "verification": {
+    "valid": true,
+    "reason": "hash matches canonical artifact",
+    "registry_id": "01JABCDE7Y6G4KQ8QNF2S8T9A3",
+    "version": "1.0.0"
+  }
+}
