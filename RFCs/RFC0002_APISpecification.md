@@ -1,92 +1,112 @@
 ---
-title: "CNAUS Registry API Specification"
-document_id: "RFC0002"
-version: "1.0.0"
-status: "Final"
-layer: "Layer 1 – Core Standard"
-type: "Normative Specification"
-issued: "2025-12-09"
-updated: "2025-12-09"
-authority: "CNAUS Registry Core Standard"
+title: CNAUS Registry API Specification
+document_id: RFC0002
+version: 1.0.0
+status: Normative
+layer: Layer 1 – Core Standard
+type: Normative Specification
+issued: 2025-12-11
+updated: 2025-12-11
+authority: CNAUS Root Authority
 dependencies:
   - RFC0001
-  - RFC0002
   - RFC0003
-references:
   - GOVERNANCE.md
   - VERSIONING.md
   - LICENSE.md
+references:
+  - VERSIONING.md
+  - Feed_Specification.md
+  - RFC0001
+  - RFC0003
 ---
-
 # RFC0002 — CNAUS Registry API Specification
-# **1. Purpose**
 
-This RFC defines the **normative CNAUS Registry API** used by external clients to:
+## 1. Purpose
 
-- retrieve registry entries
-- retrieve cryptographic proofs
-- inspect lifecycle events
-- validate artifact integrity
-- determine specification versions in use
+This document specifies the **normative CNAUS Registry API**, used by external clients to:
 
-The CNAUS API is intentionally:
+- retrieve canonical registry entries  
+- retrieve cryptographic proofs  
+- inspect lifecycle events  
+- validate artifact integrity  
+- determine active CNAUS specification versions  
 
-- **minimal**
-- **read-only**
-- **stable across versions**
-- **implementation-neutral**
+The CNAUS API is:
 
-No write operation is publicly exposed.  
-All write operations are performed **exclusively by the CNAUS Root Authority**.
+- minimal  
+- read-only for external clients  
+- stable across versions  
+- implementation-neutral  
+
+All write operations (create, update, revoke) are exclusively performed by the **CNAUS Root Authority**  
+and MUST NOT be exposed to external clients.
+
+This document is **normative**.
 
 ---
 
-# **2. API Versioning Model**
+## 2. API Versioning Model
 
-All endpoints MUST begin with a version prefix:
+All endpoints **MUST** begin with a version prefix:
 
 ```
+
 /v1/...
+
 ```
 
-Rules:
+### Versioning Rules
 
-- Breaking changes → `/v2/...`
-- Additive changes → minor version update
-- Editorial/clarifications → patch version update
-- Deprecated endpoints MUST remain functional for at least one MINOR version
+1. Breaking changes → new major prefix (`/v2/...`).  
+2. Additive changes → MINOR version update.  
+3. Editorial/non-normative clarifications → PATCH update.  
+4. Deprecated endpoints **MUST** remain functional for at least one MINOR version.  
+5. The API **MUST** declare its active version at:
 
-The API MUST always report its running version at `/v1/version`.
+```
 
----
+GET /v1/version
 
-# **3. Endpoint Overview (Normative)**
-
-|Endpoint|Method|Description|
-|---|---|---|
-|`/v1/registry/{registry_id}`|GET|Retrieve canonical registry entry|
-|`/v1/registry/{registry_id}/proof`|GET|Retrieve proof object|
-|`/v1/registry/{registry_id}/events`|GET|Retrieve lifecycle event history|
-|`/v1/feed`|GET|Retrieve the global CNAUS event feed|
-|`/v1/version`|GET|Retrieve CNAUS version declarations|
-|`/v1/validate/hash`|POST|Validate a client-supplied hash|
-
-All endpoints MUST be idempotent, side-effect free, and strongly consistent with `feed.json`.
+````
 
 ---
 
-# **4. Endpoint Specifications**
+## 3. Endpoint Overview (Normative)
 
-## **4.1 GET /v1/registry/{registry_id}**
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/v1/registry/{registry_id}` | GET | Retrieve canonical registry entry |
+| `/v1/registry/{registry_id}/proof` | GET | Retrieve latest proof object |
+| `/v1/registry/{registry_id}/events` | GET | Retrieve lifecycle event history |
+| `/v1/feed` | GET | Retrieve global canonical CNAUS feed |
+| `/v1/version` | GET | Retrieve version declarations |
+| `/v1/validate/hash` | POST | Validate client-supplied hash |
+
+All endpoints **MUST** be:
+
+- idempotent  
+- side-effect free  
+- strongly consistent with the canonical `feed.json`
+
+---
+
+## 4. Endpoint Specifications
+
+---
+
+### 4.1 GET /v1/registry/{registry_id}
 
 **Purpose**  
 Return the canonical registry entry defined in RFC0001.
 
-**Inputs**  
-`registry_id` — ULID format, MUST be validated.
+**Requirements**
+
+- `registry_id` MUST be a valid ULID.
+- Response schema MUST match RFC0001 exactly.
 
 **Successful Response (200)**  
-Schema MUST match the canonical Registry Data Model:
+(MUST match Registry Data Model)
 
 ```json
 {
@@ -115,19 +135,19 @@ Schema MUST match the canonical Registry Data Model:
     "notes": "string or null"
   }
 }
-```
+````
 
-**Error Cases**
+**Error Conditions**
 
 - `400` invalid ULID
 - `404` registry entry not found
 
 ---
 
-## **4.2 GET /v1/registry/{registry_id}/proof**
+### 4.2 GET /v1/registry/{registry_id}/proof
 
 **Purpose**  
-Return the proof object (latest version) as defined in RFC0003.
+Return the canonical proof object (latest version), defined in RFC0003.
 
 **Successful Response (200)**
 
@@ -146,19 +166,23 @@ Return the proof object (latest version) as defined in RFC0003.
 }
 ```
 
-**Error Cases**
+**Normative Rules**
+
+1. If `registry_id` is revoked → endpoint MUST return **410 Gone**.
+2. The last valid proof MUST NOT be returned for revoked entries.
+3. Proofs MUST match RFC0003 invariants.
+
+**Error Conditions**
 
 - `404` entry not found
 - `410` entry revoked
 
-If the entry is revoked, the proof endpoint MUST NOT return the last known proof.
-
 ---
 
-## **4.3 GET /v1/registry/{registry_id}/events**
+### 4.3 GET /v1/registry/{registry_id}/events
 
 **Purpose**  
-Return lifecycle events matched against `feed.json`.
+Return lifecycle events associated with a registry entry, bound to `feed.json`.
 
 **Successful Response (200)**
 
@@ -177,18 +201,18 @@ Return lifecycle events matched against `feed.json`.
 }
 ```
 
-Events MUST be:
+**Normative Requirements**
 
-- strictly chronological
-- identical to their representation in the global feed
-- immutable
+- Events MUST be identical to the canonical global feed.
+- Events MUST be strictly chronological.
+- Events MUST be immutable.
 
 ---
 
-## **4.4 GET /v1/feed**
+### 4.4 GET /v1/feed
 
 **Purpose**  
-Expose the **canonical global append-only event feed**.
+Expose the canonical append-only event feed.
 
 **Successful Response (200)**
 
@@ -196,23 +220,24 @@ Expose the **canonical global append-only event feed**.
 {
   "cnaus_feed_version": "1.0.0",
   "generated_at": "RFC3339",
-  "events": [ ... ]
+  "events": [...]
 }
 ```
 
-Rules:
+**Normative Requirements**
 
-- MUST include all create/update/revoke events
-- MUST be append-only
-- MUST reflect Root Authority state
-- MUST be deterministic across mirrors
+1. Feed MUST include all `create`, `update`, and `revoke` events.
+2. Feed MUST be append-only.
+3. Feed MUST reflect the current Root Authority state.
+4. Feed MUST be deterministic across mirrors.
+5. Feed MUST follow hash-linked ordering as defined in the Feed Specification.
 
 ---
 
-## **4.5 GET /v1/version**
+### 4.5 GET /v1/version
 
 **Purpose**  
-Expose version declarations for all relevant CNAUS components.
+Expose version declarations for CNAUS components.
 
 **Response (200)**
 
@@ -225,14 +250,14 @@ Expose version declarations for all relevant CNAUS components.
 }
 ```
 
-The API MUST return versions consistent with the SSOT.
+Versions MUST match the SSOT (Repo + feed.json).
 
 ---
 
-## **4.6 POST /v1/validate/hash**
+### 4.6 POST /v1/validate/hash
 
 **Purpose**  
-Validate a client-supplied hash against the registry entry.
+Validate a client-provided hash against the canonical registry entry.
 
 **Request Schema**
 
@@ -243,7 +268,7 @@ Validate a client-supplied hash against the registry entry.
 }
 ```
 
-**Response (200 – valid)**
+**Validation Response (200 – valid)**
 
 ```json
 {
@@ -254,7 +279,7 @@ Validate a client-supplied hash against the registry entry.
 }
 ```
 
-**Response (200 – invalid)**
+**Validation Response (200 – invalid)**
 
 ```json
 {
@@ -265,55 +290,64 @@ Validate a client-supplied hash against the registry entry.
 }
 ```
 
-**Error Cases**
+**Normative Requirements**
+
+- Validation MUST be stateless.
+- Hash comparison MUST use canonicalization rules from RFC0003.
+
+**Error Conditions**
 
 - `400` malformed request
 - `404` registry entry not found
 
-Validation MUST be stateless.
-
 ---
 
-# **5. Security Requirements**
+## 5. Security Requirements
 
 1. Endpoints MUST be served over HTTPS (TLS 1.2+).
-2. Responses MUST NOT contain personal data.
-3. Feed MUST be cacheable but immutable.
-4. Rate limits SHOULD protect against abuse.
+2. Responses MUST NOT contain personal data (Zero-PII constraint).
+3. Feed responses MAY be cached but MUST remain immutable.
+4. Rate limits SHOULD mitigate abuse.
 5. Root Authority cryptographic material MUST NOT be exposed.
+6. API implementations MUST reject malformed or ambiguous requests.    
 
 ---
 
-# **6. Compliance Requirements**
+## 6. Compliance Requirements
 
-A client is compliant if it:
+A system is CNAUS-compliant if it:
 
 - retrieves registry entries using this RFC
 - validates proofs according to RFC0003
-- respects lifecycle constraints in RFC0001
-- inspects and obeys revocation events
-- respects version boundaries
+- respects lifecycle rules in RFC0001
+- inspects revocation events and obeys terminal state rules
+- respects version boundaries declared in `/v1/version`
 - rejects inconsistent hashes or malformed entries    
 
 ---
 
-# **7. Non-Normative Extensions**
+## 7. Non-Normative Extensions
 
-These MAY be added without violating the standard:
+(Informative)
+
+Optional extensions (not part of the normative API):
 
 - `/v1/mirror` endpoint
 - compressed feeds
 - signed API responses
-- enterprise-optimized access patterns    
+- enterprise-optimized read patterns    
 
-These are NOT part of the core standard and MUST NOT appear in the normative sections.
+Such extensions **MUST NOT** modify any normative requirement.
 
 ---
 
-# **8. References**
+## 8. References
+
+(Informative unless explicitly normative)
 
 - RFC0001 — Registry Framework
 - RFC0003 — Proof Layer
+- Feed_Specification.md
 - VERSIONING.md
 - GOVERNANCE.md
-- LICENSE.md
+- LICENSE.md    

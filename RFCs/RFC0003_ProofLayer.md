@@ -1,99 +1,102 @@
 ---
-title: "CNAUS Proof Layer"
-document_id: "RFC0003"
-version: "1.0.0"
-status: "Final"
-layer: "Layer 1 – Core Standard"
-type: "Normative Specification"
-issued: "2025-12-09"
-updated: "2025-12-09"
-authority: "CNAUS Registry Core Standard"
+title: CNAUS Proof Layer
+document_id: RFC0003
+version: 1.0.0
+status: Normative
+layer: Layer 1 – Core Standard
+type: Normative Specification
+issued: 2025-12-11
+updated: 2025-12-11
+authority: CNAUS Root Authority
 dependencies:
   - RFC0001
   - RFC0002
-  - RFC0003
-references:
   - GOVERNANCE.md
   - VERSIONING.md
   - LICENSE.md
+references:
+  - RFC0001
+  - RFC0002
+  - Feed_Specification.md
+  - Revocation_Specification.md
 ---
 # RFC0003 — CNAUS Proof Layer
 
 ## 1. Purpose
 
-The CNAUS Proof Layer defines the **cryptographic foundation** of the CNAUS Registry.  
-It ensures that every artifact can be verified through:
+This document defines the **canonical cryptographic foundation** of the CNAUS Registry.
+
+The Proof Layer guarantees:
 
 - deterministic hashing  
-- canonical representation rules  
-- stable proof objects  
+- canonical artifact normalization  
+- stable, verifiable proof objects  
 - strict version-boundary enforcement  
-- feed-backed event linkage  
+- hash-linked feed integration  
 - offline verifiability  
+- integrity and origin guarantees  
 
-This RFC is normative and MUST be implemented unchanged.
+This specification is **normative** and **MUST** be implemented unchanged.
 
 ---
 
 ## 2. Definitions
 
 **Artifact**  
-Digital content represented by a canonical hash.
+Digital content represented by a canonical SHA-256 hash.
 
 **Canonical Representation**  
-The normalized form of an artifact that guarantees deterministic hashing.
+The normalized artifact form ensuring deterministic hashing.
 
 **Proof**  
-A cryptographic commitment linking a hash, timestamp, and canonicalization metadata to a registry entry.
+A cryptographic commitment linking a canonical hash, timestamp, and metadata to a registry entry.
 
 **Validator**  
-A client verifying registry entries, proofs, and feed consistency.
+A client verifying registry entries, proofs, feed consistency, and lifecycle constraints.
 
 **Proof Event**  
-A feed entry binding a proof hash to a lifecycle event.
+A feed entry binding a proof hash to a lifecycle transition.
 
 ---
 
 ## 3. Canonical Representation Rules
 
-To guarantee deterministic and reproducible hashing, all artifacts MUST be normalized prior to hashing.
+Artifacts **MUST** be normalized prior to hashing.
 
 ### 3.1 Normalization Rules (Normative)
 
-1. Encoding MUST be UTF-8 (binary artifacts MAY be base64-encoded before transport; hashing uses raw bytes).  
-2. Trailing whitespace MUST be removed.  
-3. Line endings MUST be normalized to `\n`.  
-4. JSON artifacts MUST be lexicographically sorted by key.  
-5. Binary artifacts MUST be hashed in their raw byte form.  
-6. Compression MUST NOT be applied before hashing.  
+1. Encoding **MUST** be UTF-8.  
+2. Trailing whitespace **MUST** be removed.  
+3. Line endings **MUST** normalize to `\n`.  
+4. JSON artifacts **MUST** be lexicographically sorted by key.  
+5. Binary artifacts **MUST** be hashed using raw bytes.  
+6. Compression **MUST NOT** be applied before hashing.  
+7. Canonicalization rules **MUST** be identical across all implementations.
 
-Clients MUST implement these rules exactly.  
-Deviation produces invalid proofs.
+Deviation invalidates the proof.
 
 ---
 
 ## 4. Hash Algorithm (Normative)
 
-CNAUS mandates a single algorithm:
+CNAUS **mandates** a single deterministic algorithm:
 
-Algorithm: SHA-256  
-Output: Hexadecimal, lowercase  
-Length: 64 characters
+- **Algorithm:** SHA-256  
+- **Encoding:** lowercase hexadecimal  
+- **Length:** 64 characters  
 
 Requirements:
 
-- Hash MUST be computed on the canonical representation.  
-- Identical artifacts MUST produce identical hashes.  
-- Any content change MUST produce a different hash.  
-
-No alternative algorithms are permitted in v1.0.0.
+- Hash MUST be computed on canonical representation.  
+- Identical artifacts MUST yield identical hashes.  
+- Any content modification MUST produce a different hash.  
+- No alternate algorithms are permitted in v1.0.0.
 
 ---
 
 ## 5. Proof Object Model
 
 Every proof MUST follow the canonical schema:
-
 
 ```json
 {
@@ -110,37 +113,39 @@ Every proof MUST follow the canonical schema:
 
 - `hash` MUST reflect canonical artifact representation.
 - `timestamp` MUST be issued by the Root Authority.
-- `content_type` MUST describe the artifact type.
-- `canonicalization` MUST reference the applicable normalization protocol.
-- `source` MUST identify the issuing Root Authority instance.    
-
-Proof objects MUST be embedded inside registry entries (see RFC0001).
+- `content_type` MUST accurately describe the artifact.
+- `canonicalization` MUST reference an approved CNAUS canonicalization version.
+- `source` MUST identify the Root Authority instance.
+- Proof objects MUST be embedded inside registry entries (RFC0001).
 
 ---
 
 ## 6. Proof-of-Integrity Rules
 
-A proof provides integrity guarantees when:
+A proof guarantees integrity when:
 
-1. The hash equals SHA-256(canonical artifact).
-2. The timestamp is valid and aligns with feed events.
-3. The proof is bound to a valid registry entry.
-4. No conflicting proof exists for the same registry version.
-5. The proof hash appears in the corresponding feed event.
+1. `hash == SHA256(canonical artifact)`
+2. Timestamp aligns with feed event
+3. Proof binds to a valid registry entry
+4. No conflicting proof exists for same version
+5. Proof hash appears in the canonical feed
+6. Revocation boundary is respected
 
-For **revoked entries**, the final `proof_hash`:
+### Revocation Boundary
 
-- MUST bind directly to the revocation event, and
-- MUST be treated as the terminal integrity boundary for that artifact.
+For revoked entries, the final `proof_hash`:
 
-Validators MUST reject proofs that:
+- **MUST** be directly bound to the revocation event
+- **MUST** be treated as the terminal integrity boundary
 
-- mismatch hashes,
-- mismatch timestamps,
-- mismatch registry_id references,
-- refer to revoked entries as if they were active,
-- do not appear in `feed.json`,
-- are issued after a revocation event.
+Validators **MUST** reject proofs that:
+
+- mismatch canonical hash
+- mismatch timestamps
+- mismatch registry_id
+- appear after revocation
+- are missing in feed.json
+- reference outdated or conflicting proofs
 
 ---
 
@@ -148,18 +153,17 @@ Validators MUST reject proofs that:
 
 A proof guarantees origin when:
 
-1. It is issued by the Root Authority.
-2. It is bound to a specific `registry_id`.
-3. Its timestamp aligns with the first corresponding lifecycle event.
-4. The hash represents the earliest known version of the artifact.
-5. There are no older valid proofs for the same registry entry.
+1. It is Root Authority–issued
+2. It binds to a specific `registry_id`
+3. Timestamp matches the first lifecycle event
+4. Hash represents earliest valid version
+5. No older valid proof exists
 
-Revocation establishes an **upper boundary on origin**:
+### Revocation Boundaries for Origin
 
-- No new origins or proofs MAY be associated with a revoked `registry_id`.
-- Validators MUST treat the revocation event as final for origin claims.
-
-If two proofs conflict, the chronologically earlier one is authoritative unless revoked.
+- No new proofs MAY be issued for revoked entries.
+- Validators MUST treat revocation as the final origin boundary.
+- In case of conflicting proofs, the earliest valid proof is authoritative unless revoked.
 
 ---
 
@@ -167,57 +171,63 @@ If two proofs conflict, the chronologically earlier one is authoritative unless 
 
 Proofs enforce version transitions:
 
-1. **New proof = new version.**
-2. Proof changes determine version bump:
-    - Artifact content change → MINOR or MAJOR
-    - Metadata-only change → PATCH
-3. Version MUST appear in feed events.
-4. Validators MUST reject version regressions.
+- New proof → new version
+- Artifact content change → MINOR or MAJOR
+- Metadata-only → PATCH
 
-All versioning rules delegate to `VERSIONING.md`.
+Version MUST match the corresponding feed event.  
+Validators **MUST** reject:
+
+- backwards version jumps
+- absent or malformed version numbers
+- version conflicts within feed history
+
+Versioning rules defer to `VERSIONING.md`.
 
 ---
 
 ## 9. Proof Validation Algorithm
 
-Compliant validators MUST perform:
+(Normative and MUST be implemented exactly)
 
-### Step 1 — Registry Entry Validation
+**Step 1 — Registry Entry Validation**
 
-- JSON schema correct.
-- Entry exists and is not revoked (for active-use cases).
+- Schema validity
+- Entry exists
+- Entry not revoked (for active-use queries)
 
-### Step 2 — Canonicalization + Hash Recalculation
+**Step 2 — Canonicalization + Hash Recalculation**
 
-- Compute SHA-256(canonical artifact).
-- Compare to `proof.hash`.
+- Compute canonical artifact
+- SHA-256 → compare to `proof.hash`
 
-### Step 3 — Timestamp Verification
+**Step 3 — Timestamp Verification**
 
-- Verify that `timestamp` matches the associated feed event.
+- Ensure timestamp aligns with associated feed event
 
-### Step 4 — Feed Consistency Validation
+**Step 4 — Feed Consistency Validation**
 
-- Check that an event with matching `proof_hash` exists.
-- Check that `registry_id` and `version` match.
+- Matching event MUST exist
+- `registry_id` and `version` MUST match feed
+- `proof_hash` MUST match event
 
-### Step 5 — Version Boundary Validation
+**Step 5 — Version Boundary Validation**
 
-- Apply SemVer rules.
-- Ensure no backward jumps.
+- Apply SemVer
+- No regressions allowed
 
-### Step 6 — Historical and Revocation Consistency
+**Step 6 — Historical / Revocation Consistency**
 
-- Ensure no conflicting proofs exist in earlier events.
-- Ensure no proofs are used after revocation.
+- No older conflicting proofs
+- No new proofs after revocation
 
-Any failure at any step MUST cause the validator to reject the artifact.
+Any failure → validator MUST reject.
 
 ---
 
 ## 10. Feed Binding Requirements
 
-Every proof MUST appear in exactly one feed event:
+Every proof MUST appear in **exactly one** feed event:
 
 ```json
 {
@@ -231,57 +241,61 @@ Every proof MUST appear in exactly one feed event:
 
 Rules:
 
-- Feed MUST be strictly chronological.
-- Append-only, never mutable.
-- Timestamps MUST be monotonic per registry entry.
-- A proof MUST NOT be referenced by multiple events.
+1. Feed MUST be strictly chronological.
+2. MUST be append-only.
+3. Timestamps MUST be monotonic per registry entry.
+4. A proof MUST NOT be referenced by multiple events.
 
 ---
 
 ## 11. Security Requirements
 
 1. Only the Root Authority MAY generate proofs.
-2. Proof generation MUST occur within controlled, secure infrastructure.
-3. Keys (future signing extensions) MUST NOT leave secure boundaries.
+2. Proof generation MUST occur inside controlled, trusted infrastructure.
+3. Keys or signing material (future extensions) MUST NOT leave secure boundaries.
 4. Validators MUST reject malformed or unverifiable proofs.
 5. Proof generation MUST be audit-logged.
+6. Proofs, artifacts, and feed events MUST NOT contain personal data (Zero-PII).
 
 ---
 
 ## 12. Compliance Requirements
 
-A client is compliant with RFC0003 if it:
+A client is compliant if it:
 
-- canonicalizes artifacts correctly,
-- computes SHA-256 hashes correctly,
-- validates timestamps and feed alignment,
-- enforces version boundaries,
-- respects revocation boundaries,
-- rejects revoked or conflicting proofs,
-- logs validation outcomes deterministically.
+- canonicalizes artifacts per Section 3
+- computes hashes per Section 4
+- validates proofs and feed alignment
+- respects version and revocation boundaries
+- rejects conflicting or malformed proofs
+- logs validation results deterministically
 
 ---
 
 ## 13. Non-Normative Future Extensions
 
-Potential future enhancements:
+(Informative)
 
-- signature-anchored proofs,
-- HSM-generated proofs,
-- distributed multi-authority proof issuance,
-- zero-knowledge proof anchoring,
-- compressed proof formats.
+Potential future enhancements include:
 
-These are optional and MUST NOT affect v1.0.0 implementations.
+- signature-anchored proofs
+- HSM-backed generation
+- multi-authority issuance
+- zero-knowledge-bound proofs
+- compressed proof formats
+
+These MUST NOT affect v1.0.0 compliance.
 
 ---
 
 ## 14. References
+
+(Informative unless explicitly normative)
 
 - RFC0001 — Registry Framework
 - RFC0002 — API Specification
 - Feed_Specification.md
 - Revocation_Specification.md
 - VERSIONING.md
-- GOVERNANCE.md
+- GOVERNANCE.md    
 - LICENSE.md
