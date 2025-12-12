@@ -1,15 +1,36 @@
 {
   "cnaus_feed_version": "1.0.0",
   "standard": "CNAUS Registry Core Standard",
-  "generated_at": "2025-12-11T00:00:00Z",
+  "generated_at": "2025-12-12T22:17:00Z",
   "events": [
+    {
+      "event_id": "01JSTDINITIALPUBLICRELEASE000000",
+      "event_type": "standard.initial_public_release",
+      "registry_id": null,
+      "version": "1.0.0",
+      "proof_hash": null,
+      "timestamp": "2025-12-09T12:00:00Z",
+      "details": {
+        "released_documents": [
+          "README.md",
+          "RFCs/RFC0001_RegistryFramework.md",
+          "RFCs/RFC0002_APISpecification.md",
+          "RFCs/RFC0003_ProofLayer.md",
+          "GOVERNANCE.md",
+          "VERSIONING.md",
+          "LICENSE.md"
+        ],
+        "authority": "CNAUS Root Authority",
+        "notes": "Initial public release of the CNAUS Registry Core Standard (v1.0.0)."
+      }
+    },
     {
       "event_id": "01JH8F7Z6X5M0N3R2Q9A8B7C6D",
       "event_type": "standard.layer.addition",
       "registry_id": null,
       "version": "1.1.0",
       "proof_hash": null,
-      "timestamp": "2025-12-12T22:40:00Z",
+      "timestamp": "2025-12-11T19:10:00Z",
       "details": {
         "layer": "Root Protection Layer",
         "added_documents": [
@@ -31,7 +52,50 @@
           }
         ],
         "authority": "CNAUS Root Authority",
-        "notes": "Protection Layer formally added to CNAUS Registry Core Standard"
+        "notes": "Protection Layer formally added to CNAUS Registry Core Standard."
+      }
+    },
+    {
+      "event_id": "01JH8GENESISBACKFILLCORE000001",
+      "event_type": "standard.genesis.backfill",
+      "registry_id": null,
+      "version": "1.0.0",
+      "proof_hash": null,
+      "timestamp": "2025-12-12T22:17:00Z",
+      "details": {
+        "scope": "CNAUS Registry Core Standard v1.0.0",
+        "documents": [
+          {
+            "file": "README.md",
+            "hash": "7996a144e30b955cc1052e08f16ed2c4ec5ba741bf99cc799c8314392b275a55"
+          },
+          {
+            "file": "RFCs/RFC0001_RegistryFramework.md",
+            "hash": "05c2e3dc781ee714552bd7f76a7505dc96062525c7e5dcd79930cac0e68f073f"
+          },
+          {
+            "file": "RFCs/RFC0002_APISpecification.md",
+            "hash": "d16f2487ebc2a269b7a803136219acc3e93ea6b5a6c941ab466b16779e80f5d9"
+          },
+          {
+            "file": "RFCs/RFC0003_ProofLayer.md",
+            "hash": "eb7bd26aa6740a9a82e5b463e55d465230eb02c8d8b5d60c717e0340897d1d9b"
+          },
+          {
+            "file": "Governance/GOVERNANCE.md",
+            "hash": "c78fb2e8193f5dc856bf3950b3cc481404275e922d9dd82b29d9477b038082c2"
+          },
+          {
+            "file": "VERSIONING.md",
+            "hash": "5ecf5033a7bd5721f78252413f2b5ed78046dadc3a2fe13c8ba37fd430107017"
+          },
+          {
+            "file": "LICENSE.md",
+            "hash": "c16fbf07efa26e07ab108f30720d791a9838dbb7335e4ff12b00af9c77186d3f"
+          }
+        ],
+        "authority": "CNAUS Root Authority",
+        "notes": "Formal hash anchoring of CNAUS v1.0.0 core documents (genesis backfill). No semantic changes."
       }
     }
   ]
