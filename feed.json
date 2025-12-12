@@ -2,26 +2,36 @@
   "cnaus_feed_version": "1.0.0",
   "standard": "CNAUS Registry Core Standard",
   "generated_at": "2025-12-11T00:00:00Z",
-
   "events": [
     {
-      "event_id": "01H00000000000000000000000",
-      "event_type": "create",
-      "registry_id": "ROOT-0000000000000000000001",
-      "version": "1.0.0",
-      "proof_hash": "0000000000000000000000000000000000000000000000000000000000000000",
-      "prev_hash": null,
-      "timestamp": "2025-12-11T00:00:00Z",
+      "event_id": "01JH8F7Z6X5M0N3R2Q9A8B7C6D",
+      "event_type": "standard.layer.addition",
+      "registry_id": null,
+      "version": "1.1.0",
+      "proof_hash": null,
+      "timestamp": "2025-12-12T22:40:00Z",
       "details": {
-        "description": "Genesis event for CNAUS Registry Core Standard.",
-        "released_documents": [
-          "RFC0001_RegistryFramework.md",
-          "RFC0002_APISpecification.md",
-          "RFC0003_ProofLayer.md",
-          "GOVERNANCE.md",
-          "VERSIONING.md",
-          "LICENSE.md"
-        ]
+        "layer": "Root Protection Layer",
+        "added_documents": [
+          {
+            "file": "Protection/CNAUS_Protection_Charter.md",
+            "hash": "71579823412bc0ad43ff1aef5f43dcca23858069ee4b2b04f580ea49d67ee672"
+          },
+          {
+            "file": "Protection/CNAUS_Risk_Matrix.md",
+            "hash": "803f5799a1fc38bf6146c6bf8ad3c2beb1f281774a4ecbc58c9fb1d4feb6e137"
+          },
+          {
+            "file": "Protection/CNAUS_Threat_Model.md",
+            "hash": "8b0ba5166195d5e875697ac970f877740a3254d7f19038acc7a987e0cd5aaf16"
+          },
+          {
+            "file": "Protection/CNAUS_Compliance_Guide.md",
+            "hash": "ef28ec6844c0c7bf6409a839086bd31f7d0f1cdb01d3a3ff8407e6421ff782d8"
+          }
+        ],
+        "authority": "CNAUS Root Authority",
+        "notes": "Protection Layer formally added to CNAUS Registry Core Standard"
       }
     }
   ]
