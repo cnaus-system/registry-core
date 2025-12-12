@@ -1,16 +1,25 @@
-# CNAUS Registry Core Standard — Governance Framework  
-version: 1.0.0  
-status: Normative  
-document_id: GOVERNANCE  
-document_class: Root Standard – Layer 1  
-issued: 2025-12-11  
-updated: 2025-12-11  
-authority: CNAUS Root Authority  
-dependencies: RFC0001, RFC0002, RFC0003, VERSIONING.md, feed.json  
-references: RFC0001, RFC0002, RFC0003, VERSIONING.md, LICENSE.md  
-
 ---
-
+title: CNAUS Registry Core Standard
+document_id: Governance Framework
+version: 1.0.0
+status: Normative
+document_class: Root Standard - Layer 1
+issued: 2025-12-11
+updated: 2025-12-11
+authority: CNAUS Root Authority
+dependencies:
+  - RFC0001
+  - RFC0002
+  - RFC0003
+  - VERSIONING.md
+  - feed.json
+references:
+  - RFC0001
+  - RFC0002
+  - RFC0003
+  - VERSIONING.md
+  - LICENSE.md
+---
 ## 1. Purpose
 
 This document defines the **normative governance rules** for maintaining and evolving the  
@@ -103,7 +112,30 @@ Council evaluates proposal according to CNAUS governance principles.
 ### 4. Approval + Version Assignment  
 Upon approval, a version increment is assigned following `VERSIONING.md`.
 
-### 5. Publication  
+### 4.1 Layer-1 Finalization (Normative)
+
+As of 2025-12-12, CNAUS Layer-1 is declared **FINAL**.
+
+Layer-1 includes:
+- Registry Core (RFC0001)
+- API Specification (RFC0002)
+- Proof Layer (RFC0003)
+- Governance Framework
+- Versioning Policy
+- Protection Charter
+- Risk Matrix
+- Threat Model
+- Compliance Guide
+- Canonical feed.json
+
+No normative changes to Layer-1 components are permitted except through:
+- formal Governance Council approval,
+- semantic versioning according to VERSIONING.md,
+- mandatory publication via feed.json.
+
+No changes apply retroactively.
+
+### 4.2 Publication  
 Changes **MUST** be published in:
 
 - updated RFCs  
