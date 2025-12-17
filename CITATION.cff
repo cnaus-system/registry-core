@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+title: "CNAUS Registry Core Standard"
+message: "If you use this specification, please cite it."
+type: software
+authors:
+  - name: "CNAUS System"
+repository-code: "https://github.com/<ORG>/<REPO>"
+license: "CC-BY-4.0"
