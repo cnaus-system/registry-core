@@ -1,0 +1,25 @@
+name: Clarification (Interpretation question)
+description: Ask a clarification question about intended meaning.
+title: "CLARIFICATION: <short summary>"
+labels: ["clarification"]
+body:
+  - type: input
+    id: rfc
+    attributes:
+      label: Document
+      placeholder: "RFC0001 / RFC0002 / RFC0003"
+    validations:
+      required: true
+  - type: input
+    id: section
+    attributes:
+      label: Section / location
+      placeholder: "e.g., Section 4.1"
+    validations:
+      required: true
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+    validations:
+      required: true
