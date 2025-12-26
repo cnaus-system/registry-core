@@ -1,92 +1,81 @@
 ---
-title: "CNAUS Registry API Specification"
-document_id: "RFC0002"
-version: "1.0.0"
-status: "Final"
-layer: "Layer 1 – Core Standard"
-type: "Normative Specification"
-issued: "2025-12-09"
-updated: "2025-12-09"
-authority: "CNAUS Registry Core Standard"
+title: CNAUS Registry API Specification
+document_id: RFC0002
+version: 1.0.0
+status: Normative
+layer: Layer 1 – Core Standard
+type: Normative Specification
+issued: 2025-12-11
+updated: 2025-12-11
+authority: CNAUS Root Authority
 dependencies:
   - RFC0001
-  - RFC0002
   - RFC0003
-references:
   - GOVERNANCE.md
   - VERSIONING.md
   - LICENSE.md
+references:
+  - VERSIONING.md
+  - Feed_Specification.md
+  - RFC0001
+  - RFC0003
 ---
-
 # RFC0002 — CNAUS Registry API Specification
-# **1. Purpose**
 
-This RFC defines the **normative CNAUS Registry API** used by external clients to:
+## 1. Purpose
 
-- retrieve registry entries
-- retrieve cryptographic proofs
-- inspect lifecycle events
-- validate artifact integrity
-- determine specification versions in use
+This document specifies the **normative CNAUS Registry API**, used by external clients to:
 
-The CNAUS API is intentionally:
+- retrieve canonical registry entries  
+- retrieve cryptographic proofs  
+- inspect lifecycle events  
+- validate artifact integrity  
+- determine active CNAUS specification versions  
 
-- **minimal**
-- **read-only**
-- **stable across versions**
-- **implementation-neutral**
+The CNAUS API is:
 
-No write operation is publicly exposed.  
-All write operations are performed **exclusively by the CNAUS Root Authority**.
+- minimal  
+- read-only for external clients  
+- stable across versions  
+- implementation-neutral  
+
+All write operations (create, update, revoke) are exclusively performed by the **CNAUS Root Authority**  
+and MUST NOT be exposed to external clients.
+
+This document is **normative**.
 
 ---
 
-# **2. API Versioning Model**
+## 2. API Versioning Model
 
-All endpoints MUST begin with a version prefix:
+All endpoints **MUST** begin with a version prefix:
 
 ```
+
 /v1/...
+
 ```
 
-Rules:
+### Versioning Rules
 
-- Breaking changes → `/v2/...`
-- Additive changes → minor version update
-- Editorial/clarifications → patch version update
-- Deprecated endpoints MUST remain functional for at least one MINOR version
-
-The API MUST always report its running version at `/v1/version`.
+1. Breaking changes → new major prefix (`/v2/...`).  
+2. Additive changes → MINOR version update.  
+3. Editorial corrections → PATCH update.  
 
 ---
 
-# **3. Endpoint Overview (Normative)**
+## 3. Endpoint Definitions (Normative)
 
-|Endpoint|Method|Description|
-|---|---|---|
-|`/v1/registry/{registry_id}`|GET|Retrieve canonical registry entry|
-|`/v1/registry/{registry_id}/proof`|GET|Retrieve proof object|
-|`/v1/registry/{registry_id}/events`|GET|Retrieve lifecycle event history|
-|`/v1/feed`|GET|Retrieve the global CNAUS event feed|
-|`/v1/version`|GET|Retrieve CNAUS version declarations|
-|`/v1/validate/hash`|POST|Validate a client-supplied hash|
-
-All endpoints MUST be idempotent, side-effect free, and strongly consistent with `feed.json`.
+All responses **MUST** be deterministic and canonical.
 
 ---
 
-# **4. Endpoint Specifications**
-
-## **4.1 GET /v1/registry/{registry_id}**
+### 4.1 GET /v1/registry/{registry_id}
 
 **Purpose**  
-Return the canonical registry entry defined in RFC0001.
+Retrieve a canonical registry entry.
 
-**Inputs**  
-`registry_id` — ULID format, MUST be validated.
-
-**Successful Response (200)**  
-Schema MUST match the canonical Registry Data Model:
+**Successful Response (200)**
 
 ```json
 {
@@ -117,203 +106,149 @@ Schema MUST match the canonical Registry Data Model:
 }
 ```
 
-**Error Cases**
-
-- `400` invalid ULID
-- `404` registry entry not found
-
 ---
 
-## **4.2 GET /v1/registry/{registry_id}/proof**
+### 4.2 GET /v1/proof/{registry_id}/{version}
 
 **Purpose**  
-Return the proof object (latest version) as defined in RFC0003.
+Retrieve the canonical proof object for a given registry version.
 
 **Successful Response (200)**
-
 ```json
 {
   "registry_id": "ulid",
-  "version": "string",
-  "proof": {
-    "hash": "sha256 hex",
-    "algorithm": "SHA-256",
-    "timestamp": "RFC3339",
-    "content_type": "json | text | binary",
-    "canonicalization": "CNAUS-1.0",
-    "source": "root-authority-id"
+  "version": "semver",
+  "canonical_hash": "sha256 hex",
+  "algorithm": "SHA-256",
+  "issued_at": "RFC3339",
+  "issuer": "CNAUS Root Authority",
+  "feed_binding": {
+    "event_id": "ulid",
+    "timestamp": "RFC3339"
   }
 }
 ```
 
-**Error Cases**
+---
 
-- `404` entry not found
-- `410` entry revoked
+### 4.3 GET /v1/revocation/{registry_id}/{version}
 
-If the entry is revoked, the proof endpoint MUST NOT return the last known proof.
+**Purpose**  
+Retrieve revocation information for a registry version.
+
+**Successful Response (200)**
+```json
+{
+  "registry_id": "ulid",
+  "version": "semver",
+  "revoked": true,
+  "revoked_at": "RFC3339",
+  "revocation_reason": "enum",
+  "proof_hash": "sha256 hex",
+  "details": {}
+}
+```
 
 ---
 
-## **4.3 GET /v1/registry/{registry_id}/events**
+### 4.4 GET /v1/feed
 
 **Purpose**  
-Return lifecycle events matched against `feed.json`.
+Expose the canonical append-only event feed.
 
 **Successful Response (200)**
 
 ```json
 {
-  "registry_id": "ulid",
+  "version": "1.0.0",
+  "feed_generated_at": "RFC3339",
   "events": [
     {
-      "event_id": "ulid",
-      "event_type": "create | update | revoke",
-      "version": "string",
-      "proof_hash": "sha256 hex",
-      "timestamp": "RFC3339"
+      "event_id": "01JH0V1QW3A5B7C9D2E4F6G8H0",
+      "event_type": "create | update | revoke | standard.initial_public_release | standard.version_update",
+      "registry_id": "ulid or null",
+      "version": "semver or null",
+      "proof_hash": "sha256 hex or null",
+      "timestamp": "RFC3339",
+      "prev_hash": "sha256 hex or null",
+      "details": {}
     }
   ]
 }
 ```
 
-Events MUST be:
-
-- strictly chronological
-- identical to their representation in the global feed
-- immutable
-
----
-
-## **4.4 GET /v1/feed**
-
-**Purpose**  
-Expose the **canonical global append-only event feed**.
-
-**Successful Response (200)**
-
-```json
-{
-  "cnaus_feed_version": "1.0.0",
-  "generated_at": "RFC3339",
-  "events": [ ... ]
-}
-```
-
-Rules:
-
-- MUST include all create/update/revoke events
-- MUST be append-only
-- MUST reflect Root Authority state
-- MUST be deterministic across mirrors
+**Normative Requirements**
+1. Feed MUST follow the CNAUS Feed Specification exactly.
+2. Feed MUST include all `create`, `update`, and `revoke` events.
+3. Feed MUST be append-only.
+4. Feed MUST reflect the current Root Authority state.
+5. Feed MUST be deterministic across mirrors.
 
 ---
 
-## **4.5 GET /v1/version**
+### 4.5 POST /v1/verify
 
 **Purpose**  
-Expose version declarations for all relevant CNAUS components.
+Validate a proof and registry entry combination.
 
-**Response (200)**
-
-```json
-{
-  "cnaus_api_version": "1.0.0",
-  "registry_spec_version": "1.0.0",
-  "proof_layer_version": "1.0.0",
-  "governance_version": "1.0.0"
-}
-```
-
-The API MUST return versions consistent with the SSOT.
-
----
-
-## **4.6 POST /v1/validate/hash**
-
-**Purpose**  
-Validate a client-supplied hash against the registry entry.
-
-**Request Schema**
-
+**Request Body**
 ```json
 {
   "registry_id": "ulid",
-  "hash": "sha256 hex"
+  "version": "semver",
+  "proof_hash": "sha256 hex"
 }
 ```
 
-**Response (200 – valid)**
-
+Validation Response (200 – valid)
 ```json
 {
   "valid": true,
   "reason": "hash matches canonical artifact",
   "registry_id": "ulid",
-  "version": "string"
+  "version": "semver"
 }
 ```
 
-**Response (200 – invalid)**
-
+**Validation Response (200 – invalid)**
 ```json
 {
   "valid": false,
-  "reason": "hash does not match canonical artifact",
+  "reason": "proof not found in feed or hash mismatch",
   "registry_id": "ulid",
-  "version": "string"
+  "version": "semver"
 }
 ```
 
-**Error Cases**
+---
 
-- `400` malformed request
-- `404` registry entry not found
+## 5. Error Model (Normative)
 
-Validation MUST be stateless.
+Errors MUST be deterministic.
+```json
+{
+  "error": "string",
+  "message": "string",
+  "status": 400
+}
+```
 
 ---
 
-# **5. Security Requirements**
+## 6. Security Notes
 
-1. Endpoints MUST be served over HTTPS (TLS 1.2+).
-2. Responses MUST NOT contain personal data.
-3. Feed MUST be cacheable but immutable.
-4. Rate limits SHOULD protect against abuse.
-5. Root Authority cryptographic material MUST NOT be exposed.
+- This API is read-only for implementers.
+- Only the Root Authority operates write paths.
+- Rate limiting and caching MAY be applied, but responses MUST remain canonical.
 
 ---
 
-# **6. Compliance Requirements**
-
-A client is compliant if it:
-
-- retrieves registry entries using this RFC
-- validates proofs according to RFC0003
-- respects lifecycle constraints in RFC0001
-- inspects and obeys revocation events
-- respects version boundaries
-- rejects inconsistent hashes or malformed entries    
-
----
-
-# **7. Non-Normative Extensions**
-
-These MAY be added without violating the standard:
-
-- `/v1/mirror` endpoint
-- compressed feeds
-- signed API responses
-- enterprise-optimized access patterns    
-
-These are NOT part of the core standard and MUST NOT appear in the normative sections.
-
----
-
-# **8. References**
+## 7. References
 
 - RFC0001 — Registry Framework
 - RFC0003 — Proof Layer
+- Feed Specification
+- Revocation Specification
+- Root Authority Specification
 - VERSIONING.md
 - GOVERNANCE.md
-- LICENSE.md

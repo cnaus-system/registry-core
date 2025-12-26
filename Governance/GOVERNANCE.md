@@ -1,119 +1,155 @@
-# CNAUS Registry Core Standard – Governance Framework 
-Version B (Public Release)
-
+---
+title: CNAUS Registry Core Standard
+document_id: Governance Framework
+version: 1.0.0
+status: Normative
+document_class: Root Standard - Layer 1
+issued: 2025-12-11
+updated: 2025-12-11
+authority: CNAUS Root Authority
+dependencies:
+  - RFC0001
+  - RFC0002
+  - RFC0003
+  - VERSIONING.md
+  - feed.json
+references:
+  - RFC0001
+  - RFC0002
+  - RFC0003
+  - VERSIONING.md
+  - LICENSE.md
+---
 ## 1. Purpose
-This document defines the governance structures, decision processes, and
-procedural requirements for maintaining the CNAUS Registry Core Standard.  
-It provides institutional stability analogous to recognized governance
-structures in the IETF, W3C, and ISO ecosystems.
 
-## 2. Governance Principles
-All governance processes MUST adhere to the following principles:
+This document defines the **normative governance rules** for maintaining and evolving the  
+**CNAUS Registry Core Standard**.
 
-- **Neutrality**: CNAUS does not promote specific technologies or vendors.  
-- **Integrity**: All changes are validated through the proof and versioning
-  mechanisms.  
-- **Transparency**: Public visibility is ensured via `feed.json`.  
-- **Minimalism**: Only essential rules for registry, proof, and verification are
-  maintained.  
-- **Backward Compatibility**: Stability is prioritized for implementers and
-  regulators.
+Governance decisions determine:
+
+- normative content and revisions
+- version boundaries and SemVer classification
+- conformance conditions
+- revocation authorization policy
+- lifecycle invariants of the standard
+
+This document is **normative** and binding for all implementers.
 
 ---
 
-## 3. Governance Council
-A CNAUS Governance Council oversees all normative decisions related to:
+## 2. Governance Model (Normative)
 
-- RFC creation and modification  
-- versioning and release approvals  
-- registry invariants  
-- proof semantics  
-- revocation standards  
-- conformance requirements  
+### 2.1 Roles
 
-Council responsibilities:
+- **Council**: decision and approval body for standard changes.
+- **Root Authority**: execution and publication authority for canonical artifacts.
 
-1. Maintain normative consistency across RFCs.  
-2. Approve or reject proposed changes to the standard.  
-3. Publish authoritative updates through `feed.json`.  
-4. Enforce the CNAUS License and conformance rules.  
+### 2.2 Decision vs Execution
+
+- The Council **authorizes** changes and revocation actions.
+- The Root Authority **executes and publishes** approved changes as canonical documents and feed events.
 
 ---
 
-## 4. Change Proposal Workflow
-Normative changes follow this required process:
+## 3. Change Control (Normative)
 
-1. **Proposal Submission**  
-   A formal change request referencing affected sections and rationale.
+### 3.1 Change Proposal
 
-2. **Compatibility Review**  
-   Assessment of backward/forward compatibility, registry invariants, and proof
-   stability.
+Changes MUST be proposed via a formal change request including:
 
-3. **Governance Review**  
-   Council evaluates proposal according to CNAUS principles.
+- change summary
+- impacted documents
+- SemVer classification (MAJOR/MINOR/PATCH)
+- conformance impact statement
 
-4. **Approval and Version Assignment**  
-   Upon approval, a version increment is assigned according to `VERSIONING.md`.
+### 3.2 Approval
 
-5. **Publication**  
-   All changes MUST be reflected in:
-   - Updated RFC(s)  
-   - Updated version tag  
-   - `feed.json` entry with timestamp  
-   - Repository release notes  
+No normative change MAY be published without Council approval.
+
+### 3.3 Publication
+
+Approved changes MUST be published by the Root Authority as:
+
+- updated canonical documents
+- a standard event in `feed.json`
+- a versioned release tag
 
 ---
 
-## 5. Revocation Policy
-The Council MAY issue revocation entries under the following conditions:
+## 4. Layer-1 Finality (Normative)
+
+As of 2025-12-12, **CNAUS Core Standard v1.0.0** is declared **FINAL**.
+
+### Core Standard (v1.0.0) — Normative Conformance Set
+
+Core Standard conformance claims apply ONLY to the following normative artifacts:
+
+- RFC0001 — Registry Framework
+- RFC0002 — API Specification
+- RFC0003 — Proof Layer
+- Feed Specification
+- Revocation Specification
+- Root Authority Specification
+- Governance Framework (`Governance/GOVERNANCE.md`)
+- Versioning Specification (`VERSIONING.md`)
+- Canonical feed snapshot (`feed.json`)
+- Normative schemas (`schemas/`)
+
+### Root Protection Package (Non-Core)
+
+The following documents MAY be published as a separate, normative **Root Protection Package**.
+They are **NOT** part of Core Standard v1.0.0 conformance claims unless explicitly stated
+in a future release and announced via standard events:
+
+- Protection Charter
+- Risk Matrix
+- Threat Model
+- Compliance Guide
+
+No normative changes to **Core Standard v1.0.0** components are permitted except through:
+
+- Council approval
+- SemVer rules in VERSIONING.md
+- publication by Root Authority
+- feed-announced standard events
+
+No release is valid without feed anchoring.
+
+---
+
+## 5. Revocation Policy (Normative)
+
+The Council MAY authorize revocation actions when required to protect standard integrity. The CNAUS Root Authority MUST execute and publish revocation events in the canonical feed.
+
+### Valid Reasons for Revocation:
 
 - violation of registry invariants  
-- invalid proofs or compromised anchors  
-- intentional misuse or non-compliant implementations  
-- required technical corrections to protect standard integrity  
+- invalid or compromised proofs  
+- regulatory or legal requirement  
+- root-authority action  
 
-Revocations MUST:
-
-- be recorded in `feed.json`  
-- include a timestamp, asset identifier, and revocation reason  
-- remain immutable once published  
+Revocation MUST follow the Revocation Specification and schema.
 
 ---
 
-## 6. Conformance Requirements
-Systems claiming CNAUS compliance MUST implement:
+## 6. Conformance Claims (Normative)
 
-- all normative rules in RFC0001–RFC0003  
-- the verification semantics defined in the Proof Layer  
-- the versioning and revocation rules  
-- Zero-PII constraints in proof and asset metadata  
+A system may claim conformance to:
 
-Implementations MAY add optional layers, provided they do not alter or bypass
-core semantics.
+- **CNAUS Core Standard v1.0.0** (as defined in Section 4)
+- Optional packages (e.g., Root Protection Package) only if explicitly stated and versioned separately
+
+Conformance MUST be stated precisely with version.
 
 ---
 
-## 7. Governance Amendments
-This governance document MAY be amended only through:
+## 7. References
 
-- Council approval  
-- Updated version assignment  
-- Publication in `feed.json`  
-- Reference update in `VERSIONING.md`  
-
-No amendment is valid unless all above conditions are met.
-
----
-
-## 8. References
-This governance framework cooperates with:
-
-- RFC0001 Registry Framework  
-- RFC0002 API Specification  
-- RFC0003 Proof Layer  
-- VERSIONING.md  
-- LICENSE.md  
-
-It is binding for all public and private implementations claiming CNAUS
-compatibility.
+- RFC0001
+- RFC0002
+- RFC0003
+- Feed Specification
+- Revocation Specification
+- Root Authority Specification
+- VERSIONING.md
+- LICENSE.md

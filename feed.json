@@ -1,19 +1,71 @@
 {
   "version": "1.0.0",
-  "standard": "CNAUS Registry Core",
-  "feed_generated_at": "2025-12-09T00:00:00Z",
+  "feed_generated_at": "2025-12-12T22:17:00Z",
   "events": [
     {
-      "event_id": "evt-0001",
+      "event_id": "01JH0V1QW3A5B7C9D2E4F6G8H0",
       "event_type": "standard.initial_public_release",
-      "timestamp": "2025-12-09T00:00:00Z",
-      "asset": null,
-      "hash": "0000000000000000000000000000000000000000000000000000000000000000",
-      "signature": null,
+      "registry_id": null,
+      "version": null,
+      "proof_hash": null,
+      "timestamp": "2025-12-09T12:00:00Z",
+      "prev_hash": null,
       "details": {
-        "rfc": ["RFC0001", "RFC0002", "RFC0003"],
-        "governance": "GOVERNANCE.md",
-        "versioning": "VERSIONING.md"
+        "standard_name": "CNAUS Standard",
+        "standard_version": "1.0.0",
+        "release_date": "2025-12-09T00:00:00Z",
+        "tag": "v1.0.0",
+        "assets": [
+          {
+            "path": "Feed_Specification.md",
+            "sha256": "dc45918f5f11e099f80c7ad9159387ea221e4cfe2c64d593dd27b6a6e78c7fe3"
+          },
+          {
+            "path": "Governance/GOVERNANCE.md",
+            "sha256": "87bc9d7b6f6cdb284da70069617498e1ee09e8f2afd35d09ed31cc7ef60fbed4"
+          },
+          {
+            "path": "LICENSE.md",
+            "sha256": "c16fbf07efa26e07ab108f30720d791a9838dbb7335e4ff12b00af9c77186d3f"
+          },
+          {
+            "path": "README.md",
+            "sha256": "2238cd9987ee0a0f13dcfd1a7d963d0d3c434b2d19eeecdb67d124a187a18ae7"
+          },
+          {
+            "path": "RFCs/RFC0001_RegistryFramework.md",
+            "sha256": "622de006c1c9da84ab06873da13d8cab034c5e52cc56b24846544cb3b7e93f82"
+          },
+          {
+            "path": "RFCs/RFC0002_APISpecification.md",
+            "sha256": "269a5f8c21b3f57512f4d9dda054d567508ecd4d84cf6962e8b9d7d1bfddd815"
+          },
+          {
+            "path": "RFCs/RFC0003_ProofLayer.md",
+            "sha256": "9434d3ae59f3ec817d90eacc259a0705e5070dc21c90ec89e0c772cd4b68286f"
+          },
+          {
+            "path": "Release_Notes_v1.0.0.md",
+            "sha256": "dce831961b9c09ebababc2087b95cebd95ed9a3db00f995bc14dc9ac5492f4cf"
+          },
+          {
+            "path": "Revocation_Specification.md",
+            "sha256": "5655732365e24a83f9209918259874723ef58062558d812c270d0b4518292af8"
+          },
+          {
+            "path": "Root_Authority_Specification.md",
+            "sha256": "8b687165cfed9d83e487a1eeebbaa4b099add174dadbe45b3c3625e4a2ef8b1e"
+          },
+          {
+            "path": "VERSIONING.md",
+            "sha256": "2e3ebc1316cc38d9c2dbca02d35a5ac8bf0d3590760e21096ed979d1451d66df"
+          },
+          {
+            "path": "schemas/revocation.schema.json",
+            "sha256": "e0fa68e7f423f724ad2f487a28b9bbf8d648a0e46594e6be10d8f434b0a4476c"
+          }
+        ],
+        "notes": "Initial Public Release (IPR) of CNAUS Core Standard v1.0.0."
       }
     }
   ]
