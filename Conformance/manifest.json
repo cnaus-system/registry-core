@@ -6,43 +6,85 @@
       "id": "TV0001",
       "name": "Example Register (structure)",
       "input_path": "vectors/TV0001_register.json",
-      "expected": { "result": "pass" },
-      "spec_refs": ["RFC0001", "RFC0002"]
+      "expected": {
+        "result": "pass"
+      },
+      "spec_refs": [
+        "RFC0001",
+        "RFC0002"
+      ],
+      "schema_path": "schemas/registry.schema.json"
     },
     {
       "id": "TV0002",
       "name": "Example Proof (structure)",
       "input_path": "vectors/TV0002_proof.json",
-      "expected": { "result": "pass" },
-      "spec_refs": ["RFC0003"]
+      "expected": {
+        "result": "pass"
+      },
+      "spec_refs": [
+        "RFC0003"
+      ],
+      "schema_path": "schemas/proof.schema.json"
     },
     {
       "id": "TV0003",
       "name": "Example Verify (structure)",
       "input_path": "vectors/TV0003_verify.json",
-      "expected": { "result": "pass" },
-      "spec_refs": ["RFC0002", "RFC0003"]
+      "expected": {
+        "result": "pass"
+      },
+      "spec_refs": [
+        "RFC0002",
+        "RFC0003"
+      ]
     },
     {
       "id": "TV0004",
       "name": "Register FAIL (missing required field)",
       "input_path": "vectors/TV0004_register_missing_field.json",
-      "expected": { "result": "fail" },
-      "spec_refs": ["RFC0001"]
+      "expected": {
+        "result": "fail"
+      },
+      "spec_refs": [
+        "RFC0001"
+      ],
+      "schema_path": "schemas/registry.schema.json"
     },
     {
       "id": "TV0005",
       "name": "Proof FAIL (bad type)",
       "input_path": "vectors/TV0005_proof_bad_type.json",
-      "expected": { "result": "fail" },
-      "spec_refs": ["RFC0003"]
+      "expected": {
+        "result": "fail"
+      },
+      "spec_refs": [
+        "RFC0003"
+      ],
+      "schema_path": "schemas/proof.schema.json"
     },
     {
       "id": "TV0006",
       "name": "Verify FAIL (not object)",
       "input_path": "vectors/TV0006_verify_not_object.json",
-      "expected": { "result": "fail" },
-      "spec_refs": ["RFC0002"]
+      "expected": {
+        "result": "fail"
+      },
+      "spec_refs": [
+        "RFC0002"
+      ]
+    },
+    {
+      "id": "TV0007",
+      "name": "Register FAIL (missing registry_id key)",
+      "input_path": "vectors/TV0007_register_missing_registry_id.json",
+      "expected": {
+        "result": "fail"
+      },
+      "spec_refs": [
+        "RFC0001"
+      ],
+      "schema_path": "schemas/registry.schema.json"
     }
   ]
 }
