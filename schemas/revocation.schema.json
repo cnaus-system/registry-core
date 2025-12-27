@@ -43,8 +43,13 @@
       "description": "Proof hash of the final known version prior to revocation"
     },
     "details": {
-      "type": ["object", "null"],
-      "description": "Optional metadata; MUST NOT contain personal data"
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "Optional metadata; MUST NOT contain personal data",
+      "additionalProperties": true
     }
-  }
+  },
+  "additionalProperties": false
 }

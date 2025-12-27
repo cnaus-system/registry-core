@@ -1,101 +1,134 @@
 {
-  "cnaus_feed_version": "1.0.0",
-  "standard": "CNAUS Registry Core Standard",
-  "generated_at": "2025-12-12T22:17:00Z",
+  "version": "1.0.0",
+  "feed_generated_at": "2025-12-27T20:35:38Z",
   "events": [
     {
-      "event_id": "01JSTDINITIALPUBLICRELEASE000000",
+      "event_id": "01JH0V1QW3A5B7C9D2E4F6G8H0",
       "event_type": "standard.initial_public_release",
       "registry_id": null,
-      "version": "1.0.0",
+      "version": null,
       "proof_hash": null,
       "timestamp": "2025-12-09T12:00:00Z",
+      "prev_hash": null,
       "details": {
-        "released_documents": [
-          "README.md",
-          "RFCs/RFC0001_RegistryFramework.md",
-          "RFCs/RFC0002_APISpecification.md",
-          "RFCs/RFC0003_ProofLayer.md",
-          "GOVERNANCE.md",
-          "VERSIONING.md",
-          "LICENSE.md"
+        "standard_name": "CNAUS Standard",
+        "standard_version": "1.0.0",
+        "release_date": "2025-12-09T00:00:00Z",
+        "tag": "v1.0.0",
+        "assets": [
+          {
+            "path": "Feed_Specification.md",
+            "sha256": "dc45918f5f11e099f80c7ad9159387ea221e4cfe2c64d593dd27b6a6e78c7fe3"
+          },
+          {
+            "path": "Governance/GOVERNANCE.md",
+            "sha256": "87bc9d7b6f6cdb284da70069617498e1ee09e8f2afd35d09ed31cc7ef60fbed4"
+          },
+          {
+            "path": "LICENSE.md",
+            "sha256": "c16fbf07efa26e07ab108f30720d791a9838dbb7335e4ff12b00af9c77186d3f"
+          },
+          {
+            "path": "README.md",
+            "sha256": "2238cd9987ee0a0f13dcfd1a7d963d0d3c434b2d19eeecdb67d124a187a18ae7"
+          },
+          {
+            "path": "RFCs/RFC0001_RegistryFramework.md",
+            "sha256": "622de006c1c9da84ab06873da13d8cab034c5e52cc56b24846544cb3b7e93f82"
+          },
+          {
+            "path": "RFCs/RFC0002_APISpecification.md",
+            "sha256": "269a5f8c21b3f57512f4d9dda054d567508ecd4d84cf6962e8b9d7d1bfddd815"
+          },
+          {
+            "path": "RFCs/RFC0003_ProofLayer.md",
+            "sha256": "9434d3ae59f3ec817d90eacc259a0705e5070dc21c90ec89e0c772cd4b68286f"
+          },
+          {
+            "path": "Release_Notes_v1.0.0.md",
+            "sha256": "dce831961b9c09ebababc2087b95cebd95ed9a3db00f995bc14dc9ac5492f4cf"
+          },
+          {
+            "path": "Revocation_Specification.md",
+            "sha256": "5655732365e24a83f9209918259874723ef58062558d812c270d0b4518292af8"
+          },
+          {
+            "path": "Root_Authority_Specification.md",
+            "sha256": "8b687165cfed9d83e487a1eeebbaa4b099add174dadbe45b3c3625e4a2ef8b1e"
+          },
+          {
+            "path": "VERSIONING.md",
+            "sha256": "2e3ebc1316cc38d9c2dbca02d35a5ac8bf0d3590760e21096ed979d1451d66df"
+          },
+          {
+            "path": "schemas/revocation.schema.json",
+            "sha256": "e0fa68e7f423f724ad2f487a28b9bbf8d648a0e46594e6be10d8f434b0a4476c"
+          }
         ],
-        "authority": "CNAUS Root Authority",
-        "notes": "Initial public release of the CNAUS Registry Core Standard (v1.0.0)."
+        "notes": "Initial Public Release (IPR) of CNAUS Core Standard v1.0.0."
       }
     },
     {
-      "event_id": "01JH8F7Z6X5M0N3R2Q9A8B7C6D",
-      "event_type": "standard.layer.addition",
+      "event_id": "01KDGRC80VV7ZG9Q280ZGM3B2Y",
+      "event_type": "standard.version_update",
       "registry_id": null,
-      "version": "1.1.0",
+      "version": null,
       "proof_hash": null,
-      "timestamp": "2025-12-11T19:10:00Z",
+      "timestamp": "2025-12-27T20:35:38Z",
+      "prev_hash": "627afdc07ae518b83de3eb503ad533a7bce1acd334c6b1b2adb74f4da989dcce",
       "details": {
-        "layer": "Root Protection Layer",
-        "added_documents": [
+        "standard_name": "CNAUS Standard",
+        "from_version": "1.0.0",
+        "to_version": "1.0.1",
+        "effective_date": "2025-12-27T20:35:38Z",
+        "tag": "v1.0.1",
+        "assets": [
           {
-            "file": "Protection/CNAUS_Protection_Charter.md",
-            "hash": "71579823412bc0ad43ff1aef5f43dcca23858069ee4b2b04f580ea49d67ee672"
+            "path": "README.md",
+            "sha256": "2238cd9987ee0a0f13dcfd1a7d963d0d3c434b2d19eeecdb67d124a187a18ae7"
           },
           {
-            "file": "Protection/CNAUS_Risk_Matrix.md",
-            "hash": "803f5799a1fc38bf6146c6bf8ad3c2beb1f281774a4ecbc58c9fb1d4feb6e137"
+            "path": "RFCs/RFC0001_RegistryFramework.md",
+            "sha256": "622de006c1c9da84ab06873da13d8cab034c5e52cc56b24846544cb3b7e93f82"
           },
           {
-            "file": "Protection/CNAUS_Threat_Model.md",
-            "hash": "8b0ba5166195d5e875697ac970f877740a3254d7f19038acc7a987e0cd5aaf16"
+            "path": "RFCs/RFC0002_APISpecification.md",
+            "sha256": "269a5f8c21b3f57512f4d9dda054d567508ecd4d84cf6962e8b9d7d1bfddd815"
           },
           {
-            "file": "Protection/CNAUS_Compliance_Guide.md",
-            "hash": "ef28ec6844c0c7bf6409a839086bd31f7d0f1cdb01d3a3ff8407e6421ff782d8"
+            "path": "RFCs/RFC0003_ProofLayer.md",
+            "sha256": "9434d3ae59f3ec817d90eacc259a0705e5070dc21c90ec89e0c772cd4b68286f"
+          },
+          {
+            "path": "Feed_Specification.md",
+            "sha256": "dc45918f5f11e099f80c7ad9159387ea221e4cfe2c64d593dd27b6a6e78c7fe3"
+          },
+          {
+            "path": "Revocation_Specification.md",
+            "sha256": "5655732365e24a83f9209918259874723ef58062558d812c270d0b4518292af8"
+          },
+          {
+            "path": "Root_Authority_Specification.md",
+            "sha256": "8b687165cfed9d83e487a1eeebbaa4b099add174dadbe45b3c3625e4a2ef8b1e"
+          },
+          {
+            "path": "Governance/GOVERNANCE.md",
+            "sha256": "87bc9d7b6f6cdb284da70069617498e1ee09e8f2afd35d09ed31cc7ef60fbed4"
+          },
+          {
+            "path": "VERSIONING.md",
+            "sha256": "2e3ebc1316cc38d9c2dbca02d35a5ac8bf0d3590760e21096ed979d1451d66df"
+          },
+          {
+            "path": "LICENSE.md",
+            "sha256": "c16fbf07efa26e07ab108f30720d791a9838dbb7335e4ff12b00af9c77186d3f"
+          },
+          {
+            "path": "schemas/revocation.schema.json",
+            "sha256": "e0fa68e7f423f724ad2f487a28b9bbf8d648a0e46594e6be10d8f434b0a4476c"
           }
         ],
-        "authority": "CNAUS Root Authority",
-        "notes": "Protection Layer formally added to CNAUS Registry Core Standard."
-      }
-    },
-    {
-      "event_id": "01JH8GENESISBACKFILLCORE000001",
-      "event_type": "standard.genesis.backfill",
-      "registry_id": null,
-      "version": "1.0.0",
-      "proof_hash": null,
-      "timestamp": "2025-12-12T22:17:00Z",
-      "details": {
-        "scope": "CNAUS Registry Core Standard v1.0.0",
-        "documents": [
-          {
-            "file": "README.md",
-            "hash": "7996a144e30b955cc1052e08f16ed2c4ec5ba741bf99cc799c8314392b275a55"
-          },
-          {
-            "file": "RFCs/RFC0001_RegistryFramework.md",
-            "hash": "05c2e3dc781ee714552bd7f76a7505dc96062525c7e5dcd79930cac0e68f073f"
-          },
-          {
-            "file": "RFCs/RFC0002_APISpecification.md",
-            "hash": "d16f2487ebc2a269b7a803136219acc3e93ea6b5a6c941ab466b16779e80f5d9"
-          },
-          {
-            "file": "RFCs/RFC0003_ProofLayer.md",
-            "hash": "eb7bd26aa6740a9a82e5b463e55d465230eb02c8d8b5d60c717e0340897d1d9b"
-          },
-          {
-            "file": "Governance/GOVERNANCE.md",
-            "hash": "c78fb2e8193f5dc856bf3950b3cc481404275e922d9dd82b29d9477b038082c2"
-          },
-          {
-            "file": "VERSIONING.md",
-            "hash": "5ecf5033a7bd5721f78252413f2b5ed78046dadc3a2fe13c8ba37fd430107017"
-          },
-          {
-            "file": "LICENSE.md",
-            "hash": "c16fbf07efa26e07ab108f30720d791a9838dbb7335e4ff12b00af9c77186d3f"
-          }
-        ],
-        "authority": "CNAUS Root Authority",
-        "notes": "Formal hash anchoring of CNAUS v1.0.0 core documents (genesis backfill). No semantic changes."
+        "notes": "Standard patch release v1.0.1 published; see tag v1.0.1."
       }
     }
   ]

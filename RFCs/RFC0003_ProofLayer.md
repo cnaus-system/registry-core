@@ -13,238 +13,147 @@ dependencies:
   - RFC0002
   - GOVERNANCE.md
   - VERSIONING.md
-  - LICENSE.md
+  - Root_Authority_Specification.md
+  - Revocation_Specification.md
+  - Feed_Specification.md
 references:
   - RFC0001
   - RFC0002
   - Feed_Specification.md
   - Revocation_Specification.md
 ---
-# RFC0003 — CNAUS Proof Layer
-
 ## 1. Purpose
 
-This document defines the **canonical cryptographic foundation** of the CNAUS Registry.
+This specification defines the canonical proof semantics for CNAUS.
 
-The Proof Layer guarantees:
+A proof is a deterministic, globally verifiable integrity object that binds:
 
-- deterministic hashing  
-- canonical artifact normalization  
-- stable, verifiable proof objects  
-- strict version-boundary enforcement  
-- hash-linked feed integration  
-- offline verifiability  
-- integrity and origin guarantees  
-
-This specification is **normative** and **MUST** be implemented unchanged.
+- a registry entry identifier (`registry_id`),
+- a specific semantic version (`version`),
+- a canonical hash derived from strict normalization rules.
 
 ---
 
-## 2. Definitions
+## 2. Canonicalization (Normative)
 
-**Artifact**  
-Digital content represented by a canonical SHA-256 hash.
+Canonicalization MUST be deterministic and stable across platforms.
 
-**Canonical Representation**  
-The normalized artifact form ensuring deterministic hashing.
+### 2.1 Canonical JSON
 
-**Proof**  
-A cryptographic commitment linking a canonical hash, timestamp, and metadata to a registry entry.
+If the proof hashes a JSON artifact, canonicalization MUST follow:
 
-**Validator**  
-A client verifying registry entries, proofs, feed consistency, and lifecycle constraints.
+- UTF-8 encoding
+- lexicographic key ordering
+- no insignificant whitespace
+- stable numeric representation
+- stable string encoding
 
-**Proof Event**  
-A feed entry binding a proof hash to a lifecycle transition.
-
----
-
-## 3. Canonical Representation Rules
-
-Artifacts **MUST** be normalized prior to hashing.
-
-### 3.1 Normalization Rules (Normative)
-
-1. Encoding **MUST** be UTF-8.  
-2. Trailing whitespace **MUST** be removed.  
-3. Line endings **MUST** normalize to `\n`.  
-4. JSON artifacts **MUST** be lexicographically sorted by key.  
-5. Binary artifacts **MUST** be hashed using raw bytes.  
-6. Compression **MUST NOT** be applied before hashing.  
-7. Canonicalization rules **MUST** be identical across all implementations.
-
-Deviation invalidates the proof.
+The canonical form MUST be hashed with SHA-256.
 
 ---
 
-## 4. Hash Algorithm (Normative)
+## 3. Proof Object (Normative)
 
-CNAUS **mandates** a single deterministic algorithm:
+A proof object MUST contain:
 
-- **Algorithm:** SHA-256  
-- **Encoding:** lowercase hexadecimal  
-- **Length:** 64 characters  
-
-Requirements:
-
-- Hash MUST be computed on canonical representation.  
-- Identical artifacts MUST yield identical hashes.  
-- Any content modification MUST produce a different hash.  
-- No alternate algorithms are permitted in v1.0.0.
+- `registry_id` (ULID)
+- `version` (SemVer)
+- `canonical_hash` (SHA-256 hex)
+- `algorithm` (fixed: SHA-256)
+- `issued_at` (RFC3339)
+- `issuer` (Root Authority identity)
+- `feed_binding` (event identifier and timestamp)
 
 ---
 
-## 5. Proof Object Model
+## 4. Validator Requirements (Normative)
 
-Every proof MUST follow the canonical schema:
+Validators MUST:
 
-```json
-{
-  "hash": "sha256 hex",
-  "algorithm": "SHA-256",
-  "timestamp": "RFC3339",
-  "content_type": "json | text | binary",
-  "canonicalization": "CNAUS-1.0",
-  "source": "root-authority-id"
-}
-````
-
-### 5.1 Field Requirements
-
-- `hash` MUST reflect canonical artifact representation.
-- `timestamp` MUST be issued by the Root Authority.
-- `content_type` MUST accurately describe the artifact.
-- `canonicalization` MUST reference an approved CNAUS canonicalization version.
-- `source` MUST identify the Root Authority instance.
-- Proof objects MUST be embedded inside registry entries (RFC0001).
+1. Recompute the canonical hash for a given artifact.
+2. Compare it to the proof’s `canonical_hash`.
+3. Confirm proof binds to a valid registry entry.
+4. Reject if any conflicting proof exists for the same `registry_id` and `version`.
+5. Confirm `proof_hash` appears in the canonical feed.
+6. Enforce revocation boundaries (Revocation Specification).
 
 ---
 
-## 6. Proof-of-Integrity Rules
+## 5. Anti-Equivocation Rules (Normative)
 
-A proof guarantees integrity when:
+For a given `registry_id` and `version`:
 
-1. `hash == SHA256(canonical artifact)`
-2. Timestamp aligns with feed event
-3. Proof binds to a valid registry entry
-4. No conflicting proof exists for same version
-5. Proof hash appears in the canonical feed
-6. Revocation boundary is respected
-
-### Revocation Boundary
-
-For revoked entries, the final `proof_hash`:
-
-- **MUST** be directly bound to the revocation event
-- **MUST** be treated as the terminal integrity boundary
-
-Validators **MUST** reject proofs that:
-
-- mismatch canonical hash
-- mismatch timestamps
-- mismatch registry_id
-- appear after revocation
-- are missing in feed.json
-- reference outdated or conflicting proofs
+- there MUST exist at most one canonical proof hash.
+- any conflict MUST be treated as fatal.
 
 ---
 
-## 7. Proof-of-Origin Rules
+## 6. Revocation Boundary (Normative)
+
+For revoked entries, the final `proof_hash`:
+
+- MUST be directly bound to the revocation event,
+- MUST be treated as the terminal integrity boundary.
+
+Validators MUST reject proofs that occur after a revocation boundary.
+
+---
+
+## 7. Proof-of-Origin Rules (Normative)
 
 A proof guarantees origin when:
 
-1. It is Root Authority–issued
-2. It binds to a specific `registry_id`
-3. Timestamp matches the first lifecycle event
-4. Hash represents earliest valid version
-5. No older valid proof exists
-
-### Revocation Boundaries for Origin
-
-- No new proofs MAY be issued for revoked entries.
-- Validators MUST treat revocation as the final origin boundary.
-- In case of conflicting proofs, the earliest valid proof is authoritative unless revoked.
+1. It is Root Authority–issued.
+2. It binds to a specific `registry_id`.
+3. It is present in the canonical feed.
+4. No older valid proof exists for the same version boundary.
+5. No revocation boundary invalidates it.
 
 ---
 
-## 8. Version Boundary Rules
+## 8. Proof Publication (Normative)
 
-Proofs enforce version transitions:
+Proofs MUST be published via:
 
-- New proof → new version
-- Artifact content change → MINOR or MAJOR
-- Metadata-only → PATCH
-
-Version MUST match the corresponding feed event.  
-Validators **MUST** reject:
-
-- backwards version jumps
-- absent or malformed version numbers
-- version conflicts within feed history
-
-Versioning rules defer to `VERSIONING.md`.
+- the canonical feed (proof binding),
+- the canonical proof retrieval endpoint (`/v1/proof/...`) in RFC0002.
 
 ---
 
-## 9. Proof Validation Algorithm
+## 9. Proof Lifecycle (Normative)
 
-(Normative and MUST be implemented exactly)
+Proof issuance MUST follow the registry lifecycle:
 
-**Step 1 — Registry Entry Validation**
-
-- Schema validity
-- Entry exists
-- Entry not revoked (for active-use queries)
-
-**Step 2 — Canonicalization + Hash Recalculation**
-
-- Compute canonical artifact
-- SHA-256 → compare to `proof.hash`
-
-**Step 3 — Timestamp Verification**
-
-- Ensure timestamp aligns with associated feed event
-
-**Step 4 — Feed Consistency Validation**
-
-- Matching event MUST exist
-- `registry_id` and `version` MUST match feed
-- `proof_hash` MUST match event
-
-**Step 5 — Version Boundary Validation**
-
-- Apply SemVer
-- No regressions allowed
-
-**Step 6 — Historical / Revocation Consistency**
-
-- No older conflicting proofs
-- No new proofs after revocation
-
-Any failure → validator MUST reject.
+- `create` → proof MAY be issued for initial version
+- `update` → proof MUST be issued for updated version
+- `revoke` → proof issuance MUST stop
 
 ---
 
 ## 10. Feed Binding Requirements
 
-Every proof MUST appear in **exactly one** feed event:
+Every proof MUST appear in **exactly one** feed event, as defined in the CNAUS Feed Specification.
 
 ```json
 {
+  "event_id": "01JH0V1QW3A5B7C9D2E4F6G8H0",
   "event_type": "create | update | revoke",
   "registry_id": "ulid",
-  "version": "string",
+  "version": "semver",
   "proof_hash": "sha256 hex",
-  "timestamp": "RFC3339"
+  "timestamp": "RFC3339",
+  "prev_hash": "sha256 hex or null",
+  "details": {}
 }
 ```
 
 Rules:
 
-1. Feed MUST be strictly chronological.
-2. MUST be append-only.
-3. Timestamps MUST be monotonic per registry entry.
-4. A proof MUST NOT be referenced by multiple events.
+1. Feed event objects MUST conform to the CNAUS Feed Specification.
+2. Feed MUST be strictly chronological (oldest → newest).
+3. Feed MUST be append-only.
+4. The `prev_hash` chain MUST validate across the full feed snapshot.
+5. A proof MUST NOT be referenced by multiple events.
 
 ---
 
@@ -253,49 +162,16 @@ Rules:
 1. Only the Root Authority MAY generate proofs.
 2. Proof generation MUST occur inside controlled, trusted infrastructure.
 3. Keys or signing material (future extensions) MUST NOT leave secure boundaries.
-4. Validators MUST reject malformed or unverifiable proofs.
-5. Proof generation MUST be audit-logged.
-6. Proofs, artifacts, and feed events MUST NOT contain personal data (Zero-PII).
+4. Validators MUST reject malformed or ambiguous inputs.
 
 ---
 
-## 12. Compliance Requirements
-
-A client is compliant if it:
-
-- canonicalizes artifacts per Section 3
-- computes hashes per Section 4
-- validates proofs and feed alignment
-- respects version and revocation boundaries
-- rejects conflicting or malformed proofs
-- logs validation results deterministically
-
----
-
-## 13. Non-Normative Future Extensions
-
-(Informative)
-
-Potential future enhancements include:
-
-- signature-anchored proofs
-- HSM-backed generation
-- multi-authority issuance
-- zero-knowledge-bound proofs
-- compressed proof formats
-
-These MUST NOT affect v1.0.0 compliance.
-
----
-
-## 14. References
-
-(Informative unless explicitly normative)
+## 12. References
 
 - RFC0001 — Registry Framework
 - RFC0002 — API Specification
-- Feed_Specification.md
-- Revocation_Specification.md
+- Feed Specification
+- Revocation Specification
+- Root Authority Specification
+- GOVERNANCE.md
 - VERSIONING.md
-- GOVERNANCE.md    
-- LICENSE.md
