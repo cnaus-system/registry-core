@@ -22,6 +22,27 @@
       "input_path": "vectors/TV0003_verify.json",
       "expected": { "result": "pass" },
       "spec_refs": ["RFC0002", "RFC0003"]
+    },
+    {
+      "id": "TV0004",
+      "name": "Register FAIL (missing required field)",
+      "input_path": "vectors/TV0004_register_missing_field.json",
+      "expected": { "result": "fail" },
+      "spec_refs": ["RFC0001"]
+    },
+    {
+      "id": "TV0005",
+      "name": "Proof FAIL (bad type)",
+      "input_path": "vectors/TV0005_proof_bad_type.json",
+      "expected": { "result": "fail" },
+      "spec_refs": ["RFC0003"]
+    },
+    {
+      "id": "TV0006",
+      "name": "Verify FAIL (not object)",
+      "input_path": "vectors/TV0006_verify_not_object.json",
+      "expected": { "result": "fail" },
+      "spec_refs": ["RFC0002"]
     }
   ]
 }

@@ -52,11 +52,20 @@ def main():
         if not p.exists():
             fail(f"{vid}: input file missing: {p}")
 
-        _ = load_json(p)  # ensure parseable JSON
+        data = load_json(p)  # ensure parseable JSON
 
-        ok(f"{vid}: loaded {p.name}")
+        # Minimal assertions (Non-Core): vectors must be JSON objects (dict)
+        passed = isinstance(data, dict)
 
-    ok("all vectors loaded and JSON-parseable")
+        expected_result = expected.get("result")
+        if expected_result == "pass" and not passed:
+            fail(f"{vid}: expected PASS but got FAIL (not a JSON object)")
+        if expected_result == "fail" and passed:
+            fail(f"{vid}: expected FAIL but got PASS (is a JSON object)")
+
+        ok(f"{vid}: expected {expected_result.upper()} matched")
+
+    ok("all vectors validated against minimal assertions")
     print("PASS")
 
 if __name__ == "__main__":
