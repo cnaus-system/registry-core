@@ -1,161 +1,77 @@
 ---
-title: CNAUS Registry Core Standard
-version: B (Public Release)
-status: Normative
-layer: Root Standard – Layer 1
-document_id: CNAUS-ROOT-STD-B
-issued: 2025-12-11
-updated: 2025-12-11
+title: CNAUS Registry Core Standard - Repository Index
+document_id: CNAUS-REGISTRY-CORE-REPO
+status: Informative
+current_series: v1.0.x
 authority: CNAUS Root Authority
-repository: https://github.com/cnaus-system/registry-core
-hash: assigned in Phase C
 ---
+# CNAUS Registry Core Standard (Core Standard)
+
+This repository publishes the canonical CNAUS Core Standard specifications, schemas, and the canonical public event feed.
+
+This `README.md` is **informative**. Normative requirements are defined only in the documents listed in Section 2.
+
 ## 1. Scope
 
-This document specifies the canonical CNAUS Registry Core Standard.  
-It defines the normative mechanisms for:
+CNAUS Core Standard defines a minimal, globally verifiable registry and proof infrastructure providing deterministic:
 
-- asset registration  
-- integrity proof  
-- verification  
-- versioning  
-- governance  
-- revocation  
+- origin (authority-issued),
+- integrity (canonical hashing),
+- version binding (SemVer),
+- lifecycle and revocation semantics,
+- feed-based publication and change signaling.
 
-The CNAUS Registry functions as a root standard similar to recognized international frameworks  
-(IETF RFC series, W3C Technical Reports, ISO/IEC conformance documents).
+## 2. Normative Conformance Set (Core Standard v1.0.x)
 
-All CNAUS-compliant systems **MUST** implement the semantics and invariants defined in this repository.
+A system MAY claim conformance to **CNAUS Core Standard v1.0.x** only by implementing and enforcing the following normative artifacts:
 
-Non-normative extensions, UI layers, applications, or product features are out of scope and  
-**MUST NOT** redefine, weaken, or override any normative requirements of this standard.
+- `RFCs/RFC0001_RegistryFramework.md`
+- `RFCs/RFC0002_APISpecification.md`
+- `RFCs/RFC0003_ProofLayer.md`
+- `Feed_Specification.md`
+- `Revocation_Specification.md`
+- `Root_Authority_Specification.md`
+- `Governance/GOVERNANCE.md`
+- `VERSIONING.md`
+- `schemas/` (normative JSON schemas)
+- `feed.json` (canonical event feed snapshot, hash-chained per Feed Specification)
 
----
+## 3. Non-Core Documents (Not part of Core conformance)
 
-## 2. Standard Components
+The following documents are **not** part of Core Standard conformance claims unless explicitly added by a future version and announced via standard events:
 
-The CNAUS Registry Core consists of the following normative components:
+- `CNAUS_Protection_Charter.md`
+- `CNAUS_Risk_Matrix.md`
+- `CNAUS_Threat_Model.md`
+- `CNAUS_Compliance_Guide.md`
+- `PoC_Overview.md`
+- `Pilot_Onboarding.md`
+- `Pilot_License.md`
+- `Pilot_Assessment.md`
 
-### 2.1 Registry Framework  
-Defines the data model, lifecycle, invariants, and registration semantics.  
-→ `RFCs/RFC0001_RegistryFramework.md`
+These may be published as separate packages (e.g., “Root Protection Package”) but remain outside Core Standard v1.0.x.
 
-### 2.2 API Specification  
-Defines the minimal interface for register, verify, revoke, and list.  
-→ `RFCs/RFC0002_APISpecification.md`
+## 4. Releases and Immutability
 
-### 2.3 Proof Layer  
-Defines hash-linked proof structures, anchors, verification invariants, and deterministic proof logic.  
-→ `RFCs/RFC0003_ProofLayer.md`
+- Releases are identified by Git tags and GitHub Releases (e.g., `v1.0.0`, `v1.0.1`, `v1.0.2`).
+- The canonical public event feed (`feed.json`) signals standard publication events and version updates.
+- Past releases are immutable. Any change is published as a new version following `VERSIONING.md` and `Governance/GOVERNANCE.md`.
 
-### 2.4 Governance  
-Defines policy framework for change control, versioning, and revocation processes.  
-→ `Governance/GOVERNANCE.md`
+## 5. Root Authority
 
-### 2.5 Feed Mechanism  
-Defines the canonical public event feed (root updates, proofs, revocations).  
-→ `feed.json`
+The CNAUS Root Authority is the sole authoritative issuer/publisher for:
 
-### 2.6 Versioning Rules  
-Defines release policy, semantic versioning, compatibility rules, and escalation logic.  
-→ `VERSIONING.md`
+- canonical registry issuance (conceptually),
+- canonical proof issuance,
+- canonical feed publication,
+- standard release publication and version update signaling.
 
----
+See `Root_Authority_Specification.md`.
 
-## 3. Directory Structure  
-(Informative)
+## 6. Implementer Entry Points
 
-```
+- Conformance requirements: Section 2 above
+- API surface: `RFCs/RFC0002_APISpecification.md`
+- Feed processing: `Feed_Specification.md`
+- Revocation processing: `Revocation_Specification.md`
 
-/ (root)  
-├── README.md  
-├── LICENSE.md  
-├── VERSIONING.md  
-├── feed.json  
-│  
-├── RFCs/  
-│ ├── RFC0001_RegistryFramework.md  
-│ ├── RFC0002_APISpecification.md  
-│ └── RFC0003_ProofLayer.md  
-│  
-├── Governance/  
-│ └── GOVERNANCE.md  
-│  
-├── Proofs/  
-│ ├── anchors/  
-│ └── chain/  
-│  
-└── Examples/  
-├── example_register.json  
-├── example_verify.json  
-└── example_proof.json
-
-```
-
-This directory structure is minimal, self-contained, and aligned with established standardization practice.
-
----
-
-## 4. Normative Requirements (MUST / SHOULD / MAY)
-
-### 4.1 Registry Invariants  
-- Assets **MUST** contain an identifier, version, hash, timestamp, and signature.  
-- Registration records **MUST** be immutable once anchored.  
-- Registry operations **MUST** be deterministic and side-effect free.  
-
-### 4.2 Proof Layer  
-- Proof records **MUST** be hash-linked.  
-- Verification **MUST** yield a deterministic boolean result.  
-- Anchors **MUST NOT** contain personal data (**Zero-PII constraint**).  
-- Proof computation **MUST** follow RFC0003 invariants.  
-
-### 4.3 Hash Chain Requirements  
-- All root events **MUST** be included in `feed.json`.  
-- Events **MUST** follow canonical ordering.  
-- Each entry **MUST** include a `prev_hash` linking to its predecessor (except the genesis entry).  
-
-### 4.4 Revocation  
-- A registered asset **MAY** be revoked through a valid revocation record.  
-- Revocation events **MUST** be published via `feed.json`.  
-- Revocation semantics **MUST** follow RFC0001 and RFC0002.  
-
-### 4.5 Governance  
-- All normative changes **MUST** follow the procedures defined in `GOVERNANCE.md`.  
-- Version increments **MUST** comply with `VERSIONING.md`.  
-
----
-
-## 5. Interoperability and Compliance
-
-The CNAUS Registry Core Standard is designed to be:
-
-- technology-agnostic  
-- implementation-neutral  
-- forward-compatible  
-- regulator-aligned (EU AI Act, OECD AI Principles, NIST AI RMF)
-
-Any system claiming CNAUS compatibility **MUST** implement all normative requirements and invariants defined in this repository and corresponding RFCs.
-
----
-
-## 6. Non-Normative Examples  
-(Informative)
-
-Canonical JSON examples for conformant operations are provided in `/Examples`.  
-These examples clarify minimal expected behavior but do not introduce any new normative requirements.
-
----
-
-## 7. Public Change Log
-
-Normative changes and root events are tracked via:
-
-- `feed.json` – machine-readable event log  
-- `VERSIONING.md` – human-readable release notes  
-
----
-
-## 8. Status of This Document
-
-This document is an authoritative **Version-B** release of the CNAUS Registry Core Standard.  
-Future revisions will follow the governance and versioning rules defined in this repository.
