@@ -1,25 +1,8 @@
 ---
 title: CNAUS Protection Charter
-document_id: PROTECTION-CHARTER
-version: 1.0.0
-status: Normative Charter
-layer: Root Protection Layer – Core Standard
-type: Normative Charter
-issued: 2025-12-11
-updated: 2025-12-11
+status: Informative
+conformance_scope: Non-Core
 authority: CNAUS Root Authority
-dependencies:
-  - RFC0001
-  - RFC0002
-  - RFC0003
-  - GOVERNANCE.md
-  - VERSIONING.md
-  - Feed_Specification.md
-  - Revocation_Specification.md
-references:
-  - RFC0001-0003
-  - VERSIONING.md
-  - GOVERNANCE.md
 ---
 # CNAUS Protection Charter  
 ## 1. Purpose

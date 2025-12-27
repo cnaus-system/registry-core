@@ -1,3 +1,9 @@
+---
+title: Pilot Onboarding
+status: Informative
+conformance_scope: Non-Core
+authority: CNAUS Root Authority
+---
 # CNAUS Pilot Onboarding
 
 ## Steps

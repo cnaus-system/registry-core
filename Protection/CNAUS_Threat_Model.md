@@ -1,20 +1,8 @@
 ---
 title: CNAUS Threat Model
-document_id: PROTECTION-CHARTER
-version: 1.0.0
-status: Normative
-layer: Root Protection Layer
-type: Normative Threat Model
-issued: 2025-12-11
-updated: 2025-12-11
+status: Informative
+conformance_scope: Non-Core
 authority: CNAUS Root Authority
-dependencies:
-  - RISK-MATRIX
-  - PROTECTION-CHARTER
-  - RFC0001-RFC0003
-  - GOVERNANCE.md
-references:
-  - Compliance_Guide.md
 ---
 # CNAUS Threat Model  
 

@@ -1,21 +1,8 @@
 ---
 title: CNAUS Compliance Guide
-document_id: COMPLIANCE-GUIDE
-version: 1.0.0
-status: Normative
-layer: Root Protection Layer
-type: Normative Guide
-issued: 2025-12-11
-updated: 2025-12-11
+status: Informative
+conformance_scope: Non-Core
 authority: CNAUS Root Authority
-dependencies:
-  - RISK-MATRIX
-  - PROTECTION-CHARTER
-  - RFC0001-RFC0003
-  - THREAT-MODEL
-references:
-  - VERSIONING.md
-  - GOVERNANCE.md
 ---
 # CNAUS Compliance Guide
 

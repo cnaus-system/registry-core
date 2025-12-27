@@ -1,3 +1,9 @@
+---
+title: Pilot License
+status: Informative
+conformance_scope: Non-Core
+authority: CNAUS Root Authority
+---
 # CNAUS Pilot License (Read-Only)
 
 This Pilot License grants limited, read-only access to the CNAUS PoC.

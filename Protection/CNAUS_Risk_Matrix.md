@@ -1,21 +1,8 @@
 ---
 title: CNAUS Risk Matrix
-document_id: RISK-MATRIX
-version: 1.0.0
-status: Normative
-layer: Root Protection Layer
-type: Normative Matrix
-issued: 2025-12-11
-updated: 2025-12-11
+status: Informative
+conformance_scope: Non-Core
 authority: CNAUS Root Authority
-dependencies:
-  - PROTECTION-CHARTER
-  - RFC0001-RFC0003
-  - GOVERNANCE.md
-  - VERSIONING.md
-references:
-  - Threat_Model.md
-  - Compliance_Guide.md
 ---
 # CNAUS Risk Matrix  
 

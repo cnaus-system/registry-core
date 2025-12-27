@@ -1,3 +1,9 @@
+---
+title: PoC Overview
+status: Informative
+conformance_scope: Non-Core
+authority: CNAUS Root Authority
+---
 # CNAUS PoC — Minimal Proof of Concept (Layer-1)
 
 Status: PoC Definition  
