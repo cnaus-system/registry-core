@@ -1,3 +1,11 @@
+---
+title: CNAUS Versioning Policy
+document_id: CNAUS-VERSIONING
+status: Normative
+version: 1.0.0
+conformance_scope: Core
+authority: CNAUS Root Authority
+---
 # CNAUS Registry Core Standard — Versioning Policy  
 version: 1.0.0  
 status: Normative  

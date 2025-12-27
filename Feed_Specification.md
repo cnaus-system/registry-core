@@ -1,3 +1,11 @@
+---
+title: CNAUS Registry Framework
+document_id: CNAUS-FEED-SPEC
+status: Normative
+version: 1.0.0
+conformance_scope: Core
+authority: CNAUS Root Authority
+---
 # CNAUS Feed Specification
 Version: 1.0.0
 Status: Normative

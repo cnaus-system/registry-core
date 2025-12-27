@@ -1,3 +1,11 @@
+---
+title: CNAUS Revocation Specification
+document_id: CNAUS-REVOCATION-SPEC
+status: Normative
+version: 1.0.0
+conformance_scope: Core
+authority: CNAUS Root Authority
+---
 # CNAUS Revocation Specification  
 Version 1.0.0 (Normative)
 

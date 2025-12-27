@@ -1,3 +1,11 @@
+---
+title: CNAUS Root Authority Specification
+document_id: CNAUS-ROOT-AUTH-SPEC
+status: Normative
+version: 1.0.0
+conformance_scope: Core
+authority: CNAUS Root Authority
+---
 # CNAUS Root Authority Specification (RAS)  
 Version 1.0.0 (Normative)
 
