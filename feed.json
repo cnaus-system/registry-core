@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "feed_generated_at": "2025-12-12T22:17:00Z",
+  "feed_generated_at": "2025-12-27T20:35:38Z",
   "events": [
     {
       "event_id": "01JH0V1QW3A5B7C9D2E4F6G8H0",
@@ -66,6 +66,69 @@
           }
         ],
         "notes": "Initial Public Release (IPR) of CNAUS Core Standard v1.0.0."
+      }
+    },
+    {
+      "event_id": "01KDGRC80VV7ZG9Q280ZGM3B2Y",
+      "event_type": "standard.version_update",
+      "registry_id": null,
+      "version": null,
+      "proof_hash": null,
+      "timestamp": "2025-12-27T20:35:38Z",
+      "prev_hash": "627afdc07ae518b83de3eb503ad533a7bce1acd334c6b1b2adb74f4da989dcce",
+      "details": {
+        "standard_name": "CNAUS Standard",
+        "from_version": "1.0.0",
+        "to_version": "1.0.1",
+        "effective_date": "2025-12-27T20:35:38Z",
+        "tag": "v1.0.1",
+        "assets": [
+          {
+            "path": "README.md",
+            "sha256": "2238cd9987ee0a0f13dcfd1a7d963d0d3c434b2d19eeecdb67d124a187a18ae7"
+          },
+          {
+            "path": "RFCs/RFC0001_RegistryFramework.md",
+            "sha256": "622de006c1c9da84ab06873da13d8cab034c5e52cc56b24846544cb3b7e93f82"
+          },
+          {
+            "path": "RFCs/RFC0002_APISpecification.md",
+            "sha256": "269a5f8c21b3f57512f4d9dda054d567508ecd4d84cf6962e8b9d7d1bfddd815"
+          },
+          {
+            "path": "RFCs/RFC0003_ProofLayer.md",
+            "sha256": "9434d3ae59f3ec817d90eacc259a0705e5070dc21c90ec89e0c772cd4b68286f"
+          },
+          {
+            "path": "Feed_Specification.md",
+            "sha256": "dc45918f5f11e099f80c7ad9159387ea221e4cfe2c64d593dd27b6a6e78c7fe3"
+          },
+          {
+            "path": "Revocation_Specification.md",
+            "sha256": "5655732365e24a83f9209918259874723ef58062558d812c270d0b4518292af8"
+          },
+          {
+            "path": "Root_Authority_Specification.md",
+            "sha256": "8b687165cfed9d83e487a1eeebbaa4b099add174dadbe45b3c3625e4a2ef8b1e"
+          },
+          {
+            "path": "Governance/GOVERNANCE.md",
+            "sha256": "87bc9d7b6f6cdb284da70069617498e1ee09e8f2afd35d09ed31cc7ef60fbed4"
+          },
+          {
+            "path": "VERSIONING.md",
+            "sha256": "2e3ebc1316cc38d9c2dbca02d35a5ac8bf0d3590760e21096ed979d1451d66df"
+          },
+          {
+            "path": "LICENSE.md",
+            "sha256": "c16fbf07efa26e07ab108f30720d791a9838dbb7335e4ff12b00af9c77186d3f"
+          },
+          {
+            "path": "schemas/revocation.schema.json",
+            "sha256": "e0fa68e7f423f724ad2f487a28b9bbf8d648a0e46594e6be10d8f434b0a4476c"
+          }
+        ],
+        "notes": "Standard patch release v1.0.1 published; see tag v1.0.1."
       }
     }
   ]
