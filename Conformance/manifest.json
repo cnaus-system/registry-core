@@ -1,0 +1,27 @@
+{
+  "manifest_version": "1.0",
+  "generated_at": null,
+  "vectors": [
+    {
+      "id": "TV0001",
+      "name": "Example Register (structure)",
+      "input_path": "vectors/TV0001_register.json",
+      "expected": { "result": "pass" },
+      "spec_refs": ["RFC0001", "RFC0002"]
+    },
+    {
+      "id": "TV0002",
+      "name": "Example Proof (structure)",
+      "input_path": "vectors/TV0002_proof.json",
+      "expected": { "result": "pass" },
+      "spec_refs": ["RFC0003"]
+    },
+    {
+      "id": "TV0003",
+      "name": "Example Verify (structure)",
+      "input_path": "vectors/TV0003_verify.json",
+      "expected": { "result": "pass" },
+      "spec_refs": ["RFC0002", "RFC0003"]
+    }
+  ]
+}
