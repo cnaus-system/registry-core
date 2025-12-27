@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cnaus.org/schemas/proof.schema.json",
+  "title": "CNAUS Proof Object (Informative Schema)",
+  "type": "object",
+  "required": ["registry_id", "version", "proof"],
+  "properties": {
+    "registry_id": { "type": "string" },
+    "version": { "type": "string" },
+    "proof": {
+      "type": "object",
+      "required": ["hash", "algorithm", "timestamp", "content_type", "canonicalization", "source"],
+      "properties": {
+        "hash": { "type": "string" },
+        "algorithm": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "content_type": { "type": "string" },
+        "canonicalization": { "type": "string" },
+        "source": { "type": "string" }
+      }
+    }
+  }
+}

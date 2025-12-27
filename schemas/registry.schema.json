@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cnaus.org/schemas/registry.schema.json",
+  "title": "CNAUS Registry Record (Informative Schema)",
+  "type": "object",
+  "required": ["registry_id", "version", "artifact", "proof", "license", "metadata"],
+  "properties": {
+    "registry_id": { "type": "string" },
+    "version": { "type": "string" },
+    "artifact": {
+      "type": "object",
+      "required": ["type", "name", "description"],
+      "properties": {
+        "type": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" }
+      }
+    },
+    "proof": {
+      "type": "object",
+      "required": ["hash", "algorithm", "timestamp", "content_type", "canonicalization", "source"],
+      "properties": {
+        "hash": { "type": "string" },
+        "algorithm": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "content_type": { "type": "string" },
+        "canonicalization": { "type": "string" },
+        "source": { "type": "string" }
+      }
+    },
+    "license": {
+      "type": "object",
+      "required": ["license_id", "valid_from", "valid_to", "status"],
+      "properties": {
+        "license_id": { "type": "string" },
+        "valid_from": { "type": "string" },
+        "valid_to": { "type": ["string", "null"] },
+        "status": { "type": "string" }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["created_at", "updated_at", "created_by", "notes"],
+      "properties": {
+        "created_at": { "type": "string" },
+        "updated_at": { "type": "string" },
+        "created_by": { "type": "string" },
+        "notes": { "type": ["string", "null"] }
+      }
+    }
+  }
+}
