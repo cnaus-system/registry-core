@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "feed_generated_at": "2025-12-27T20:35:38Z",
+  "feed_generated_at": "2026-01-03T20:19:09Z",
   "events": [
     {
       "event_id": "01JH0V1QW3A5B7C9D2E4F6G8H0",
@@ -129,6 +129,81 @@
           }
         ],
         "notes": "Standard patch release v1.0.1 published; see tag v1.0.1."
+      }
+    },
+    {
+      "event_id": "01KE2MS77NVKM7A8P5CAT2PM4F",
+      "event_type": "standard.version_update",
+      "registry_id": null,
+      "version": null,
+      "proof_hash": null,
+      "timestamp": "2026-01-03T20:19:09Z",
+      "prev_hash": "383a387eb128626067df201ca6a456be5b8eb048f48319570286ad1ec8544cbe",
+      "details": {
+        "standard_name": "CNAUS Standard",
+        "from_version": "1.0.13",
+        "to_version": "1.0.14",
+        "effective_date": "2026-01-03T20:19:09Z",
+        "tag": "v1.0.14",
+        "assets": [
+          {
+            "path": "CHANGELOG.md",
+            "sha256": "d96ae0ce2cad8e13726a9534d47165548b1559c9d1892ea3633c5700b939fc85"
+          },
+          {
+            "path": "CANONICAL_SOURCE.md",
+            "sha256": "a11e91abb8c9d22c76eb8a27466733e6c4d95c0516ee63907932747137a691ca"
+          },
+          {
+            "path": "RELEASE_POLICY.md",
+            "sha256": "46e25daea215663aa759b609e60c5458259c072e7e4c3af52b00a4f8fb22c8bb"
+          },
+          {
+            "path": "README.md",
+            "sha256": "9e5795eb8e3956a58cc7bc571a4b5ed92b590fe1a44a92d6fd4b5ad003e01f66"
+          },
+          {
+            "path": "RFCs/RFC0001_RegistryFramework.md",
+            "sha256": "05c2e3dc781ee714552bd7f76a7505dc96062525c7e5dcd79930cac0e68f073f"
+          },
+          {
+            "path": "RFCs/RFC0002_APISpecification.md",
+            "sha256": "269a5f8c21b3f57512f4d9dda054d567508ecd4d84cf6962e8b9d7d1bfddd815"
+          },
+          {
+            "path": "RFCs/RFC0003_ProofLayer.md",
+            "sha256": "9434d3ae59f3ec817d90eacc259a0705e5070dc21c90ec89e0c772cd4b68286f"
+          },
+          {
+            "path": "Feed_Specification.md",
+            "sha256": "7723e6e167de4fb0d471afbc1fbd5b45279c55e180cd6948e800d3141a7b7091"
+          },
+          {
+            "path": "Revocation_Specification.md",
+            "sha256": "cc9a43d275ad84ef2a7afa1a6008e07dd49ae2da23a62bdaad3b5250e85b1d78"
+          },
+          {
+            "path": "Root_Authority_Specification.md",
+            "sha256": "50540d179b55828ae2fb122c0ff71ee15107f947ea50933d8c548d63cfa94728"
+          },
+          {
+            "path": "VERSIONING.md",
+            "sha256": "4db888ceebc8effdc841d894e319f74bf981c683bf8944b122836a0bba94a3fa"
+          },
+          {
+            "path": "ERRATA.md",
+            "sha256": "541b53c06908faebd10055275d90aaabeb42bcc6cfe17f4bdd1b35809876184d"
+          },
+          {
+            "path": "process/ERRATA_PROCESS.md",
+            "sha256": "7753551123399aef798f232b9a2c9ff3c463060352ad5ac37c1e9a8ef7a03adc"
+          },
+          {
+            "path": "schemas/revocation.schema.json",
+            "sha256": "e0fa68e7f423f724ad2f487a28b9bbf8d648a0e46594e6be10d8f434b0a4476c"
+          }
+        ],
+        "notes": "Non-core documentation update: CHANGELOG added; release policy and SSOT remain unchanged."
       }
     }
   ]
