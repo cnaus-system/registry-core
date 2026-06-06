@@ -2,7 +2,7 @@
 title: CNAUS Release Policy
 status: Informative
 conformance_scope: Non-Core
-authority: CNAUS Root Authority
+
 ---
 
 # CNAUS Release Policy (Non-Core)
