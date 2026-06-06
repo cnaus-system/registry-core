@@ -2,7 +2,7 @@
 title: CNAUS Errata
 status: Informative
 conformance_scope: Non-Core
-authority: CNAUS Root Authority
+
 ---
 
 # CNAUS Errata (Non-Core)
